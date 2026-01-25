@@ -69,7 +69,7 @@
         <div class="container">
             <h2>About Us</h2>  <!-- EDIT: Masukkan judul, misalnya "Tentang Semesta Florist Bali" -->
             <p>Semesta Florist are serving high quality fresh flowers, wrapped with love and care.</p>  <!-- EDIT: Masukkan deskripsi, misalnya "Kami adalah toko bunga terpercaya di Bali, menyediakan bunga segar dan aransemen mewah untuk berbagai acara. Dengan pengalaman bertahun-tahun, kami berkomitmen menghadirkan keindahan alam Bali dalam setiap bouquet." -->
-            `<img src="semestaflorist-hero.jpeg" alt="Semesta Florist Logo">`<!-- EDIT: Masukkan kode gambar tentang di sini, contoh: <img src="images/interior-toko.jpg" alt="Interior toko bunga"> -->
+            <img src="semestaflorist-hero.jpeg" alt="Semesta Florist Logo"><!-- EDIT: Masukkan kode gambar tentang di sini, contoh: <img src="images/interior-toko.jpg" alt="Interior toko bunga"> -->
             <!-- Placeholder: Ganti dengan gambar Anda -->
         </div>
     </section>
@@ -78,9 +78,8 @@
         <div class="container">
             <h2>Contact Us</h2>  <!-- EDIT: Masukkan judul, misalnya "Hubungi Kami" -->
             <p>Ready to order? Send your orders to our Florists now!</p>  <!-- EDIT: Masukkan deskripsi, misalnya "Siap untuk memesan? Kirim pesan atau kunjungi toko kami di Bali." -->
-            <form id="WhatsAppForm">
-                <input type="text" name="nama" placeholder="Your Name" required>  <!-- EDIT: Masukkan placeholder, misalnya "Nama Anda" -->
-                >  <!-- EDIT: Masukkan placeholder, misalnya "Email Anda" -->
+            <form id="WhatsappForm">
+                <input type="text" id="nama" placeholder="Your Name" required>  <!-- EDIT: Masukkan placeholder, misalnya "Nama Anda" -->
                 <textarea id="pesan" placeholder="Your Order" required></textarea>  <!-- EDIT: Masukkan placeholder, misalnya "Pesan Anda" -->
                 <button type="submit" class="cta-button">Order Now!</button>  <!-- EDIT: Masukkan teks tombol, misalnya "Kirim Pesan" -->
             </form>
@@ -128,5 +127,28 @@ git add README.md
 git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/semestafloristbali/florist.git
-git push -u origin main</body>
+git push -u origin main
+<script>
+  document.getElementById("whatsappForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const phone = "6285726057805"; // NOMOR WA KAMU
+    const nama = document.getElementById("nama").value.trim();
+    const pesan = document.getElementById("pesan").value.trim();
+
+    const message =
+  `Hello Semesta Florist 🌸\n\n` +
+  `My name is ${nama}.\n` +
+  `I would like to place an order with the following details:\n\n` +
+  `${pesan}\n\n` +
+  `Thank you. I look forward to your confirmation.`;
+
+
+    const whatsappURL =
+      "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+
+    window.open(whatsappURL, "_blank");
+  });
+</script>
+</body>
 </html>
