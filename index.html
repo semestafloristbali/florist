@@ -102,24 +102,6 @@
         </div>
     </footer>
 <script>
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();  // Mencegah reload halaman
-        fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: { 'Accept': 'application/json' }
-        }).then(response => {
-            if (response.ok) {
-                alert('Terima kasih! Pesan Anda telah dikirim.');
-                form.reset();  // Kosongkan form
-            } else {
-                alert('Terjadi kesalahan. Coba lagi.');
-            }
-        }).catch(error => {
-            alert('Error: ' + error.message);
-        });
-    });
 </script>
 echo "# florist" >> README.md
 git init
@@ -129,25 +111,79 @@ git branch -M main
 git remote add origin https://github.com/semestafloristbali/florist.git
 git push -u origin main
 <script>
-  document.getElementById("whatsappForm").addEventListener("submit", function (e) {
+</script>
+<!-- Luxury Thank You Modal -->
+<div id="thankyouModal" class="ty-overlay" aria-hidden="true">
+  <div class="ty-modal" role="dialog" aria-modal="true" aria-labelledby="tyTitle">
+    <button type="button" class="ty-close" id="tyClose" aria-label="Close">×</button>
+
+    <div class="ty-badge">Semesta Florist</div>
+    <h3 id="tyTitle" class="ty-title">Thank you for your request</h3>
+    <p class="ty-subtitle">
+      Your message has been prepared and opened in WhatsApp.
+      Our florist will assist you shortly.
+    </p>
+
+    <div class="ty-actions">
+      <button type="button" class="ty-btn" id="tyOk">Done</button>
+    </div>
+  </div>
+</div>
+<script>
+  // ====== WhatsApp form + luxury popup ======
+  const form = document.getElementById("whatsappForm");
+
+  const modal = document.getElementById("thankyouModal");
+  const closeBtn = document.getElementById("tyClose");
+  const okBtn = document.getElementById("tyOk");
+
+  function openThankyou(){
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden"; // biar terasa premium (no scroll)
+  }
+
+  function closeThankyou(){
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  // close actions
+  closeBtn.addEventListener("click", closeThankyou);
+  okBtn.addEventListener("click", closeThankyou);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeThankyou(); // klik area gelap = close
+  });
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeThankyou();
+  });
+
+  form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const phone = "6285726057805"; // NOMOR WA KAMU
-    const nama = document.getElementById("nama").value.trim();
+    const phone = "6285726057805"; // nomor WA kamu
+    const nama  = document.getElementById("nama").value.trim();
     const pesan = document.getElementById("pesan").value.trim();
 
     const message =
-  `Hello Semesta Florist 🌸\n\n` +
-  `My name is ${nama}.\n` +
-  `I would like to place an order with the following details:\n\n` +
-  `${pesan}\n\n` +
-  `Thank you. I look forward to your confirmation.`;
+      `Hello Semesta Florist 🌸\n\n` +
+      `My name is ${nama}.\n` +
+      `I would like to place an order with the following details:\n\n` +
+      `${pesan}\n\n` +
+      `Thank you.`;
 
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
-    const whatsappURL =
-      "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+    // Buka WhatsApp
+    window.open(url, "_blank");
 
-    window.open(whatsappURL, "_blank");
+    // Popup thank you (smooth & premium)
+    // requestAnimationFrame = animasi lebih halus (anti lag)
+    requestAnimationFrame(openThankyou);
+
+    // Optional: reset form agar terasa "done"
+    form.reset();
   });
 </script>
 </body>
