@@ -84,7 +84,7 @@
                 <button type="submit" class="cta-button">Order Now!</button>  <!-- EDIT: Masukkan teks tombol, misalnya "Kirim Pesan" -->
             </form>
             <div class="kontak-info">
-                <p>Alamat:Puri Gading, Jimbaran, Bali</p>  <!-- EDIT: Masukkan alamat, misalnya "Jl. Sunset Road, Kuta, Bali" -->
+                <p>Alamat: Puri Gading, Jimbaran, Bali</p>  <!-- EDIT: Masukkan alamat, misalnya "Jl. Sunset Road, Kuta, Bali" -->
                 <p>Telepon: +62 857 2605 7805</p>  <!-- EDIT: Masukkan telepon, misalnya "+62 812-3456-7890" -->
                 <p>Email: Semestafloristbali@gmail.com</p>  <!-- EDIT: Masukkan email, misalnya "info@semestafloristbali.com" -->
             </div>
@@ -159,6 +159,7 @@ git push -u origin main
     if (e.key === "Escape") closeThankyou();
   });
 
+  let isSubmitting = false;
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -167,7 +168,7 @@ git push -u origin main
     const pesan = document.getElementById("pesan").value.trim();
 
     const message =
-      `Hello Semesta Florist 🌸\n\n` +
+      `Hello Semesta Florist\n\n` +
       `My name is ${nama}.\n` +
       `I would like to place an order with the following details:\n\n` +
       `${pesan}\n\n` +
