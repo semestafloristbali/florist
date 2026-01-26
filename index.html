@@ -34,45 +34,12 @@
     </div>
   </header>
 
-  <section id="home" class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <h2>Elevate Every Occasion with Exquisite Florals.</h2>
-        <p>Find our collection of tropical flowers and luxurious bouquet to blooming your day!</p>
-        <a href="#kontak" class="cta-button">Contact Us!</a>
-      </div>
-      <div class="hero-image">
-        <img src="mawarmerah-hero.jpeg" alt="Red Rose" />
-      </div>
-    </div>
-  </section>
-
   <section id="produk" class="produk">
     <div class="container">
       <h2>Our Collection</h2>
 
-      <div class="produk-grid">
-        <div class="produk-item">
-          <img src="bucket-hero.jpeg" alt="Flower Basket" />
-          <h3>Flower Basket</h3>
-          <p>Flower Basket with 11 main Flowers, 2 Artificial Tulips, and additional flowers.</p>
-          <span class="harga">Rp 200.000,-</span>
-        </div>
-
-        <div class="produk-item">
-          <img src="teddybouquet-hero.jpeg" alt="Teddy Bear Bouquet" />
-          <h3>Teddy Bear Bouquet</h3>
-          <p>Teddy Bear Bouquet with 5 main flowers, additional flowers, and a teddy bear.</p>
-          <span class="harga">Rp 125.000,-</span>
-        </div>
-
-        <div class="produk-item">
-          <img src="smallbouquet-hero.jpeg" alt="Small Bouquet" />
-          <h3>Small Bouquet</h3>
-          <p>Small Sized Bouquet with 9 main flowers, and additional flowers.</p>
-          <span class="harga">Rp 100.000,-</span>
-        </div>
-      </div>
+      <!-- GRID PRODUK (AKAN DIISI OTOMATIS DARI JS) -->
+      <div class="produk-grid" id="produkGrid"></div>
     </div>
   </section>
 
@@ -132,8 +99,76 @@
   </div>
 
   <script>
-    const form = document.getElementById("whatsappForm");
+    // ====== 1) DATA PRODUK + RENDER ======
+    const products = [
+      {
+        name: "Flower Basket",
+        price: "Rp 180.000,-",
+        image: "bucket-hero.jpeg",
+        desc: "Flower Basket with 11 main flowers, 2 artificial tulips, and additional flowers. You can request the flowers as well."
+      },
+      {
+        name: "Teddy Bear Bouquet",
+        price: "Rp 85.000,-",
+        image: "teddybouquet-hero.jpeg",
+        desc: "Teddy Bear Bouquet with 5 main flowers, additional flowers, and a teddy bear."
+      },
+      {
+        name: "Small Bouquet",
+        price: "Rp 65.000,-",
+        image: "smallbouquet-hero.jpeg",
+        desc: "Small sized bouquet with 9 main flowers and additional flowers."
+      },
+	  {
+        name: "Basket of Gerbera's",
+        price: "Rp 150.000,-",
+        image: "bucketofgerbera-hero.jpeg",
+        desc: "17 Gerbera's with additional flowers and leaves."
+	   },
+	   {
+        name: "Medium Bouquet",
+        price: "Rp 200.000,-",
+        image: "mediumbouquet-hero.jpeg",
+        desc: "Special request by Customers."
+	   },
+	   {
+        name: "Medium Flower Basket",
+        price: "Rp 190.000,-",
+        image: "flowerbucket-hero.jpeg",
+        desc: "Medium sized contains 27 main flowers, and additional flowers and leaves."
+	   },
+    ];
 
+    const grid = document.getElementById("produkGrid");
+    grid.innerHTML = products.map(p => `
+      <div class="produk-item" data-produk="${p.name}" data-harga="${p.price}">
+        <img src="${p.image}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <span class="harga">${p.price}</span>
+      </div>
+    `).join("");
+
+    // ====== 2) KLIK PRODUK -> AUTO ISI ORDER + SCROLL ======
+    document.addEventListener("click", function (e) {
+      const card = e.target.closest(".produk-item");
+      if (!card) return;
+
+      const namaProduk = card.dataset.produk;
+      const hargaProduk = card.dataset.harga;
+
+      document.getElementById("pesan").value =
+        `Product: ${namaProduk}\n` +
+        `Price: ${hargaProduk}\n\n` +
+        `Delivery date:\n` +
+        `Address:\n` +
+        `Notes:`;
+
+      document.getElementById("kontak").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // ====== 3) WHATSAPP SUBMIT + THANK YOU MODAL ======
+    const form = document.getElementById("whatsappForm");
     const modal = document.getElementById("thankyouModal");
     const closeBtn = document.getElementById("tyClose");
     const okBtn = document.getElementById("tyOk");
@@ -152,15 +187,15 @@
 
     closeBtn.addEventListener("click", closeThankyou);
     okBtn.addEventListener("click", closeThankyou);
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeThankyou();
+    modal.addEventListener("click", (ev) => {
+      if (ev.target === modal) closeThankyou();
     });
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeThankyou();
+    window.addEventListener("keydown", (ev) => {
+      if (ev.key === "Escape") closeThankyou();
     });
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
 
       const phone = "6285726057805";
       const nama = document.getElementById("nama").value.trim();
@@ -174,8 +209,8 @@
         `Thank you.`;
 
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
       window.open(url, "_blank");
+
       requestAnimationFrame(openThankyou);
       form.reset();
     });
