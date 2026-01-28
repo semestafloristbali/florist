@@ -126,7 +126,7 @@
   </div>
 </div>
 
-<button id="toTop" class="to-top" aria-label="Back to top">↑</button>
+<button id="toTop" class="to-top" aria-label="Back to top">^</button>
 
   <script>
     // ====== 1) DATA PRODUK + RENDER ======
@@ -324,6 +324,7 @@
 
   // back to top
   toTop.addEventListener("click", () => {
+    toTop.classList.remove("is-show");
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
