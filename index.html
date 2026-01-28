@@ -33,11 +33,15 @@
 
 
     <!-- Hamburger (muncul di HP) -->
-    <button class="nav-toggle nav-rose" id="navToggle" aria-label="Open menu" aria-expanded="false">
-  <span class="rose" aria-hidden="true">🌹</span>
-  <span class="rose" aria-hidden="true">🌹</span>
-  <span class="rose" aria-hidden="true">🌹</span>
+<!-- Rose Toggle (1 bud -> 3 blooms) -->
+<button class="nav-rose" id="navToggle" aria-label="Open menu" aria-expanded="false" type="button">
+  <span class="rose-bud" aria-hidden="true">🌹</span>
+
+  <span class="rose-bloom" aria-hidden="true">🌹</span>
+  <span class="rose-bloom" aria-hidden="true">🌹</span>
+  <span class="rose-bloom" aria-hidden="true">🌹</span>
 </button>
+
 
 
     <nav class="nav" id="siteNav">
@@ -158,7 +162,8 @@
   </div>
 </div>
 
-<button id="toTop" class="to-top" aria-label="Back to top">^</button>
+<button id="toTop" class="to-top to-top-rose" aria-label="Back to top">🌹</button>
+
 
   <script>
     // ====== 1) DATA PRODUK + RENDER ======
@@ -368,52 +373,46 @@ if (gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("valentine"
   });
 
   // ====== 4) HEADER + MOBILE NAV + BACK TO TOP ======
-  const header = document.getElementById("siteHeader");
-  const nav = document.getElementById("siteNav");
-  const navToggle = document.getElementById("navToggle");
-  const toTop = document.getElementById("toTop");
+  <script>
+const header = document.getElementById("siteHeader");
+const nav = document.getElementById("siteNav");
+const navToggle = document.getElementById("navToggle");
+const toTop = document.getElementById("toTop");
 
-  // toggle hamburger
-  navToggle.addEventListener("click", () => {
-    const open = nav.classList.toggle("is-open");
-    navToggle.classList.toggle("is-active", open);
-    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
-    
+/* ROSE TOGGLE */
+navToggle.addEventListener("click", () => {
+  const open = nav.classList.toggle("is-open");
+  navToggle.classList.toggle("is-open-rose", open);
+  navToggle.setAttribute("aria-expanded", open);
+});
 
-  });
+/* CLICK OUTSIDE CLOSE */
+document.addEventListener("click", e => {
+  if(e.target.closest("#navToggle") || e.target.closest("#siteNav")) return;
+  nav.classList.remove("is-open");
+  navToggle.classList.remove("is-open-rose");
+});
 
-  // klik menu => tutup
-  document.addEventListener("click", (e) => {
-    const link = e.target.closest('nav a[href^="#"]');
-    if (!link) return;
-    nav.classList.remove("is-open");
-	navToggle.classList.remove("is-active");
-    navToggle.setAttribute("aria-expanded", "false");
-  });
+/* BACK TO TOP */
+toTop.addEventListener("click", () => {
+  window.scrollTo({ top:0, behavior:"smooth" });
+});
 
-  // back to top
-  toTop.addEventListener("click", () => {
-    toTop.classList.remove("is-show");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
+/* HEADER HIDE + TOP BUTTON */
+let lastY = window.scrollY;
+window.addEventListener("scroll", () => {
+  const y = window.scrollY;
 
-  // header hide/show + show button
-  let lastY = window.scrollY;
-  window.addEventListener("scroll", () => {
-    const y = window.scrollY;
+  y > 500 ? toTop.classList.add("is-show")
+          : toTop.classList.remove("is-show");
 
-    if (y > 500) toTop.classList.add("is-show");
-    else toTop.classList.remove("is-show");
+  if(y > lastY && y > 120) header.classList.add("is-hidden");
+  else header.classList.remove("is-hidden");
 
-    const goingDown = y > lastY;
-    const nearTop = y < 80;
+  lastY = y;
+});
+</script>
 
-    if (nearTop) header.classList.remove("is-hidden");
-    else if (goingDown) header.classList.add("is-hidden");
-    else header.classList.remove("is-hidden");
-
-    lastY = y;
-  });
 // ====== FILTER UI (Show All / Valentine) ======
 const btnAll = document.getElementById("btnAll");
 const btnVal = document.getElementById("btnVal");
