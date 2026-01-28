@@ -569,7 +569,7 @@ header.is-hidden{
 
   /* hamburger icon */
   .nav-toggle{
-    display: block;
+    display: flex;
   }
 
   /* dropdown nav luxury */

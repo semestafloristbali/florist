@@ -27,7 +27,9 @@
 
     <!-- Hamburger (muncul di HP) -->
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
+      <span></span>
+	  <span></span>
+	  <span></span>
     </button>
 
     <nav class="nav" id="siteNav">
@@ -186,181 +188,163 @@
     ];
 
     const grid = document.getElementById("produkGrid");
-    grid.innerHTML = products.map(p => `
-      <div class="produk-item" data-produk="${p.name}" data-harga="${p.price}">
-        <img class="produk-img" src="${p.image}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <p>${p.desc}</p>
-        <span class="harga">${p.price}</span>
-      </div>
-    `).join("");
+  grid.innerHTML = products.map(p => `
+    <div class="produk-item" data-produk="${p.name}" data-harga="${p.price}">
+      <img class="produk-img" src="${p.image}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p>${p.desc}</p>
+      <span class="harga">${p.price}</span>
+    </div>
+  `).join("");
 
-// ====== 1) LIGHTBOX SETUP ======
-const imgLightbox = document.getElementById("imgLightbox");
-const imgPreview  = document.getElementById("imgPreview");
-const imgClose    = document.getElementById("imgClose");
+  // ====== 2) LIGHTBOX ======
+  const imgLightbox = document.getElementById("imgLightbox");
+  const imgPreview  = document.getElementById("imgPreview");
+  const imgClose    = document.getElementById("imgClose");
 
-function openImage(src, alt){
-  imgPreview.src = src;
-  imgPreview.alt = alt || "Preview";
-  imgLightbox.classList.add("is-open");
-  imgLightbox.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-}
-
-function closeImage(){
-  imgLightbox.classList.remove("is-open");
-  imgLightbox.setAttribute("aria-hidden", "true");
-  imgPreview.src = "";
-  document.body.style.overflow = "";
-}
-
-imgClose.addEventListener("click", closeImage);
-imgLightbox.addEventListener("click", (e) => {
-  if (e.target === imgLightbox) closeImage(); // klik backdrop
-});
-window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeImage();
-});
-
-// ====== 2) KLIK GAMBAR PRODUK => BUKA LIGHTBOX ======
-document.addEventListener("click", function (e) {
-  const img = e.target.closest(".produk-img");
-  if (!img) return;
-
-  openImage(img.getAttribute("src"), img.getAttribute("alt"));
-});
-
-    // ====== 2) KLIK PRODUK -> AUTO ISI ORDER + SCROLL ======
-  
-  document.addEventListener("click", function (e) {
-  // 👉 kalau yang diklik gambar, BIARKAN lightbox yang jalan
-  if (e.target.closest(".produk-img")) return;
-
-  const card = e.target.closest(".produk-item");
-  if (!card) return;
-
-  const namaProduk = card.dataset.produk;
-  const hargaProduk = card.dataset.harga;
-
-  document.getElementById("pesan").value =
-    `Product: ${namaProduk}\n` +
-    `Price: ${hargaProduk}\n\n` +
-    `Delivery date:\n` +
-    `Address:\n` +
-    `Notes:`;
-
-  document.getElementById("kontak").scrollIntoView({ behavior: "smooth" });
-});
-
-
-    // ====== 3) WHATSAPP SUBMIT + THANK YOU MODAL ======
-    const form = document.getElementById("whatsappForm");
-    const modal = document.getElementById("thankyouModal");
-    const closeBtn = document.getElementById("tyClose");
-    const okBtn = document.getElementById("tyOk");
-
-    function openThankyou() {
-      modal.classList.add("is-open");
-      modal.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeThankyou() {
-      modal.classList.remove("is-open");
-      modal.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    }
-
-    closeBtn.addEventListener("click", closeThankyou);
-    okBtn.addEventListener("click", closeThankyou);
-    modal.addEventListener("click", (ev) => {
-      if (ev.target === modal) closeThankyou();
-    });
-    window.addEventListener("keydown", (ev) => {
-      if (ev.key === "Escape") closeThankyou();
-    });
-
-    form.addEventListener("submit", function (ev) {
-      ev.preventDefault();
-
-      const phone = "6285726057805";
-      const nama = document.getElementById("nama").value.trim();
-      const pesan = document.getElementById("pesan").value.trim();
-
-      const message =
-        `Hello Semesta Florist\n\n` +
-        `My name is ${nama}.\n` +
-        `I would like to place an order with the following details:\n\n` +
-        `${pesan}\n\n` +
-        `Thank you.`;
-
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-      window.open(url, "_blank");
-
-      requestAnimationFrame(openThankyou);
-      form.reset();
-    });
-  // ===== Smooth menu + mobile nav + header hide/show + back to top =====
-const header = document.getElementById("siteHeader");
-const nav = document.getElementById("siteNav");
-const navToggle = document.getElementById("navToggle");
-const toTop = document.getElementById("toTop");
-
-// 1) Mobile nav toggle
-<script>
-  const nav = document.getElementById("siteNav");
-  const navToggle = document.getElementById("navToggle");
-
-document.addEventListener("click", (e) => {
-  const link = e.target.closest('nav a[href^="#"]');
-  if (!link) return;
-
-  nav.classList.remove("is-open");
-  navToggle.classList.remove("is-active");
-  navToggle.setAttribute("aria-expanded", "false");
-});
-
-
-// 2) Klik menu di HP -> tutup menu + scroll halus
-document.addEventListener("click", (e) => {
-  const link = e.target.closest('nav a[href^="#"]');
-  if (!link) return;
-
-  // tutup nav di mobile
-  nav.classList.remove("is-open");
-  navToggle.setAttribute("aria-expanded", "false");
-});
-
-// 3) Back to top smooth
-toTop.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-// 4) Header hide saat scroll down, show saat scroll up + show toTop
-let lastY = window.scrollY;
-window.addEventListener("scroll", () => {
-  const y = window.scrollY;
-
-  // show/hide back-to-top
-  if (y > 500) toTop.classList.add("is-show");
-  else toTop.classList.remove("is-show");
-
-  // header behavior
-  const goingDown = y > lastY;
-  const nearTop = y < 80;
-
-  if (nearTop) {
-    header.classList.remove("is-hidden");
-  } else if (goingDown) {
-    header.classList.add("is-hidden");
-  } else {
-    header.classList.remove("is-hidden");
+  function openImage(src, alt){
+    imgPreview.src = src;
+    imgPreview.alt = alt || "Preview";
+    imgLightbox.classList.add("is-open");
+    imgLightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
   }
 
-  lastY = y;
-});
+  function closeImage(){
+    imgLightbox.classList.remove("is-open");
+    imgLightbox.setAttribute("aria-hidden", "true");
+    imgPreview.src = "";
+    document.body.style.overflow = "";
+  }
+
+  imgClose.addEventListener("click", closeImage);
+  imgLightbox.addEventListener("click", (e) => {
+    if (e.target === imgLightbox) closeImage();
+  });
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeImage();
+  });
+
+  // klik gambar => lightbox
+  document.addEventListener("click", function (e) {
+    const img = e.target.closest(".produk-img");
+    if (!img) return;
+    openImage(img.getAttribute("src"), img.getAttribute("alt"));
+  });
+
+  // klik card (bukan gambar) => isi order + scroll
+  document.addEventListener("click", function (e) {
+    if (e.target.closest(".produk-img")) return;
+
+    const card = e.target.closest(".produk-item");
+    if (!card) return;
+
+    const namaProduk = card.dataset.produk;
+    const hargaProduk = card.dataset.harga;
+
+    document.getElementById("pesan").value =
+      `Product: ${namaProduk}\n` +
+      `Price: ${hargaProduk}\n\n` +
+      `Delivery date:\n` +
+      `Address:\n` +
+      `Notes:`;
+
+    document.getElementById("kontak").scrollIntoView({ behavior: "smooth" });
+  });
+
+  // ====== 3) WHATSAPP + THANK YOU MODAL ======
+  const form = document.getElementById("whatsappForm");
+  const modal = document.getElementById("thankyouModal");
+  const closeBtn = document.getElementById("tyClose");
+  const okBtn = document.getElementById("tyOk");
+
+  function openThankyou() {
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeThankyou() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  closeBtn.addEventListener("click", closeThankyou);
+  okBtn.addEventListener("click", closeThankyou);
+  modal.addEventListener("click", (ev) => {
+    if (ev.target === modal) closeThankyou();
+  });
+  window.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape") closeThankyou();
+  });
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+
+    const phone = "6285726057805";
+    const nama = document.getElementById("nama").value.trim();
+    const pesan = document.getElementById("pesan").value.trim();
+
+    const message =
+      `Hello Semesta Florist\n\n` +
+      `My name is ${nama}.\n` +
+      `I would like to place an order with the following details:\n\n` +
+      `${pesan}\n\n` +
+      `Thank you.`;
+
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+
+    requestAnimationFrame(openThankyou);
+    form.reset();
+  });
+
+  // ====== 4) HEADER + MOBILE NAV + BACK TO TOP ======
+  const header = document.getElementById("siteHeader");
+  const nav = document.getElementById("siteNav");
+  const navToggle = document.getElementById("navToggle");
+  const toTop = document.getElementById("toTop");
+
+  // toggle hamburger
+  navToggle.addEventListener("click", () => {
+    const open = nav.classList.toggle("is-open");
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
+  // klik menu => tutup
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('nav a[href^="#"]');
+    if (!link) return;
+    nav.classList.remove("is-open");
+    navToggle.setAttribute("aria-expanded", "false");
+  });
+
+  // back to top
+  toTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // header hide/show + show button
+  let lastY = window.scrollY;
+  window.addEventListener("scroll", () => {
+    const y = window.scrollY;
+
+    if (y > 500) toTop.classList.add("is-show");
+    else toTop.classList.remove("is-show");
+
+    const goingDown = y > lastY;
+    const nearTop = y < 80;
+
+    if (nearTop) header.classList.remove("is-hidden");
+    else if (goingDown) header.classList.add("is-hidden");
+    else header.classList.remove("is-hidden");
+
+    lastY = y;
+  });
 </script>
+
+
 
 </body>
 </html>
