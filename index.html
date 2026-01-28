@@ -21,19 +21,26 @@
 
 <body>
 
-  <header>
-    <div class="container">
-      <h1 class="logo">Semesta Florist Bali</h1>
-      <nav>
-        <ul>
-          <li><a href="#home">Beranda</a></li>
-          <li><a href="#produk">Produk</a></li>
-          <li><a href="#tentang">Tentang Kami</a></li>
-          <li><a href="#kontak">Kontak</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+    <header id="siteHeader">
+  <div class="container header-inner">
+    <h1 class="logo">Semesta Florist Bali</h1>
+
+    <!-- Hamburger (muncul di HP) -->
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="siteNav">
+      <ul>
+        <li><a href="#home">Beranda</a></li>
+        <li><a href="#produk">Produk</a></li>
+        <li><a href="#tentang">Tentang Kami</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
 <section id="home" class="hero">
   <div class="container">
     <div class="hero-content">
@@ -109,6 +116,15 @@
       </div>
     </div>
   </div>
+<!-- Image Lightbox (Klik gambar untuk lihat besar) -->
+<div id="imgLightbox" class="img-overlay" aria-hidden="true">
+  <div class="img-modal" role="dialog" aria-modal="true" aria-label="Product image">
+    <button type="button" class="img-close" id="imgClose" aria-label="Close">×</button>
+    <img id="imgPreview" src="" alt="Preview">
+  </div>
+</div>
+
+<button id="toTop" class="to-top" aria-label="Back to top">↑</button>
 
   <script>
     // ====== 1) DATA PRODUK + RENDER ======
@@ -172,30 +188,71 @@
     const grid = document.getElementById("produkGrid");
     grid.innerHTML = products.map(p => `
       <div class="produk-item" data-produk="${p.name}" data-harga="${p.price}">
-        <img src="${p.image}" alt="${p.name}">
+        <img class="produk-img" src="${p.image}" alt="${p.name}">
         <h3>${p.name}</h3>
         <p>${p.desc}</p>
         <span class="harga">${p.price}</span>
       </div>
     `).join("");
 
+// ====== 1) LIGHTBOX SETUP ======
+const imgLightbox = document.getElementById("imgLightbox");
+const imgPreview  = document.getElementById("imgPreview");
+const imgClose    = document.getElementById("imgClose");
+
+function openImage(src, alt){
+  imgPreview.src = src;
+  imgPreview.alt = alt || "Preview";
+  imgLightbox.classList.add("is-open");
+  imgLightbox.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeImage(){
+  imgLightbox.classList.remove("is-open");
+  imgLightbox.setAttribute("aria-hidden", "true");
+  imgPreview.src = "";
+  document.body.style.overflow = "";
+}
+
+imgClose.addEventListener("click", closeImage);
+imgLightbox.addEventListener("click", (e) => {
+  if (e.target === imgLightbox) closeImage(); // klik backdrop
+});
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeImage();
+});
+
+// ====== 2) KLIK GAMBAR PRODUK => BUKA LIGHTBOX ======
+document.addEventListener("click", function (e) {
+  const img = e.target.closest(".produk-img");
+  if (!img) return;
+
+  openImage(img.getAttribute("src"), img.getAttribute("alt"));
+});
+
     // ====== 2) KLIK PRODUK -> AUTO ISI ORDER + SCROLL ======
-    document.addEventListener("click", function (e) {
-      const card = e.target.closest(".produk-item");
-      if (!card) return;
+  
+  document.addEventListener("click", function (e) {
+  // 👉 kalau yang diklik gambar, BIARKAN lightbox yang jalan
+  if (e.target.closest(".produk-img")) return;
 
-      const namaProduk = card.dataset.produk;
-      const hargaProduk = card.dataset.harga;
+  const card = e.target.closest(".produk-item");
+  if (!card) return;
 
-      document.getElementById("pesan").value =
-        `Product: ${namaProduk}\n` +
-        `Price: ${hargaProduk}\n\n` +
-        `Delivery date:\n` +
-        `Address:\n` +
-        `Notes:`;
+  const namaProduk = card.dataset.produk;
+  const hargaProduk = card.dataset.harga;
 
-      document.getElementById("kontak").scrollIntoView({ behavior: "smooth" });
-    });
+  document.getElementById("pesan").value =
+    `Product: ${namaProduk}\n` +
+    `Price: ${hargaProduk}\n\n` +
+    `Delivery date:\n` +
+    `Address:\n` +
+    `Notes:`;
+
+  document.getElementById("kontak").scrollIntoView({ behavior: "smooth" });
+});
+
 
     // ====== 3) WHATSAPP SUBMIT + THANK YOU MODAL ======
     const form = document.getElementById("whatsappForm");
@@ -244,7 +301,57 @@
       requestAnimationFrame(openThankyou);
       form.reset();
     });
-  </script>
+  // ===== Smooth menu + mobile nav + header hide/show + back to top =====
+const header = document.getElementById("siteHeader");
+const nav = document.getElementById("siteNav");
+const navToggle = document.getElementById("navToggle");
+const toTop = document.getElementById("toTop");
+
+// 1) Mobile nav toggle
+navToggle.addEventListener("click", () => {
+  const open = nav.classList.toggle("is-open");
+  navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+});
+
+// 2) Klik menu di HP -> tutup menu + scroll halus
+document.addEventListener("click", (e) => {
+  const link = e.target.closest('nav a[href^="#"]');
+  if (!link) return;
+
+  // tutup nav di mobile
+  nav.classList.remove("is-open");
+  navToggle.setAttribute("aria-expanded", "false");
+});
+
+// 3) Back to top smooth
+toTop.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// 4) Header hide saat scroll down, show saat scroll up + show toTop
+let lastY = window.scrollY;
+window.addEventListener("scroll", () => {
+  const y = window.scrollY;
+
+  // show/hide back-to-top
+  if (y > 500) toTop.classList.add("is-show");
+  else toTop.classList.remove("is-show");
+
+  // header behavior
+  const goingDown = y > lastY;
+  const nearTop = y < 80;
+
+  if (nearTop) {
+    header.classList.remove("is-hidden");
+  } else if (goingDown) {
+    header.classList.add("is-hidden");
+  } else {
+    header.classList.remove("is-hidden");
+  }
+
+  lastY = y;
+});
+</script>
 
 </body>
 </html>
