@@ -17,20 +17,28 @@
 
   <!-- GOOGLE FONTS -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
     <header id="siteHeader">
   <div class="container header-inner">
-    <h1 class="logo">Semesta Florist Bali</h1>
+    <h1 class="logo">
+  <span class="logo-script">Semesta</span>
+  <span class="logo-text">Florist Bali</span>
+  <span class="logo-mark">❤</span>
+</h1>
+
 
     <!-- Hamburger (muncul di HP) -->
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
-      <span></span>
-	  <span></span>
-	  <span></span>
-    </button>
+    <button class="nav-toggle nav-rose" id="navToggle" aria-label="Open menu" aria-expanded="false">
+  <span class="rose" aria-hidden="true">🌹</span>
+  <span class="rose" aria-hidden="true">🌹</span>
+  <span class="rose" aria-hidden="true">🌹</span>
+</button>
+
 
     <nav class="nav" id="siteNav">
       <ul>
@@ -48,9 +56,14 @@
     <div class="hero-content">
       <h2>Elevate Every Occasion with Exquisite Florals.</h2>
       <p>Find our collection of tropical flowers and luxurious bouquet to blooming your day!</p>
-      <a href="#kontak" class="cta-button">Contact Us!</a>
+   
+	<div class="hero-actions">
+      <a href="#valentine" class="cta-button cta-valentine">Valentine Collection</a>
+      <a href="#kontak" class="cta-button cta-ghost">Contact Us</a>
     </div>
-    <div class="hero-image">
+  </div>
+   
+   <div class="hero-image">
       <img src="mawarmerah-hero.jpeg" alt="Red Rose">
     </div>
   </div>
@@ -59,10 +72,24 @@
     <div class="container">
       <h2>Our Collection</h2>
 
+<div class="collection-actions">
+  <button class="pill-btn is-active" id="btnAll" type="button">Show All</button>
+  <button class="pill-btn" id="btnVal" type="button">Valentine Collection ❤</button>
+</div>
+
       <!-- GRID PRODUK (AKAN DIISI OTOMATIS DARI JS) -->
       <div class="produk-grid" id="produkGrid"></div>
     </div>
   </section>
+  
+  <section id="valentine" class="produk produk-valentine">
+  <div class="container">
+    <h2>Valentine Collection</h2>
+    <p class="val-sub">Rose-forward arrangements, wrapped for romance — soft, luxurious, and timeless.</p>
+    <div class="produk-grid" id="valentineGrid"></div>
+  </div>
+</section>
+
 
   <section id="tentang" class="tentang">
     <div class="container">
@@ -106,12 +133,17 @@
     <div class="ty-modal" role="dialog" aria-modal="true" aria-labelledby="tyTitle">
       <button type="button" class="ty-close" id="tyClose" aria-label="Close">×</button>
 
-      <div class="ty-badge">Semesta Florist</div>
-      <h3 id="tyTitle" class="ty-title">Thank you for your request</h3>
-      <p class="ty-subtitle">
-        Your message has been prepared and opened in WhatsApp.
-        Our florist will assist you shortly.
-      </p>
+      <div class="ty-badge ty-badge-val">Valentine Edition</div>
+
+<h3 id="tyTitle" class="ty-title">
+  Your Valentine order is on its way ❤
+</h3>
+
+<p class="ty-subtitle">
+  We’ve opened WhatsApp with your details.
+  Our florist will reply shortly with a beautiful rose arrangement.
+</p>
+
 
       <div class="ty-actions">
         <button type="button" class="ty-btn" id="tyOk">Done</button>
@@ -135,67 +167,102 @@
         name: "Flower Basket",
         price: "Rp 180.000,-",
         image: "bucket-hero.jpeg",
-        desc: "Flower Basket with 11 main flowers, 2 artificial tulips, and additional flowers. You can request the flowers as well."
-      },
+        desc: "Flower Basket with 11 main flowers, 2 artificial lily's, and additional flowers. You can request the flowers as well.",
+        tag: ["classic"]
+	  },
       {
         name: "Teddy Bear Bouquet",
         price: "Rp 85.000,-",
         image: "teddybouquet-hero.jpeg",
-        desc: "Teddy Bear Bouquet with 5 main flowers, additional flowers, and a teddy bear."
-      },
+        desc: "Teddy Bear Bouquet with 5 main flowers, additional flowers, and a teddy bear.",
+        tag: ["classic"]
+	  },
       {
         name: "Small Bouquet",
         price: "Rp 65.000,-",
         image: "smallbouquet-hero.jpeg",
-        desc: "Small sized bouquet with 9 main flowers and additional flowers."
-      },
+        desc: "Small sized bouquet with 9 main flowers and additional flowers.",
+        tag: ["classic"]
+	  },
 	  {
         name: "Basket of Gerbera's",
         price: "Rp 150.000,-",
         image: "bucketofgerbera-hero.jpeg",
-        desc: "17 Gerbera's with additional flowers and leaves."
+        desc: "17 Gerbera's with additional flowers and leaves.",
+	    tag: ["classic"]
 	   },
 	   {
         name: "Medium Bouquet",
         price: "Rp 200.000,-",
         image: "mediumbouquet-hero.jpeg",
-        desc: "Special request by Customers."
-	   },
+        desc: "Special request by Customers.",
+	    tag: ["classic"]
+	  },
 	   {
         name: "Medium Flower Basket",
         price: "Rp 190.000,-",
         image: "flowerbucket-hero.jpeg",
-        desc: "Medium sized contains 27 main flowers, and additional flowers and leaves."
-	   },
+        desc: "Medium sized contains 27 main flowers, and additional flowers and leaves.",
+	    tag: ["classic"]
+	  },
 	   {
 	    name: "Teddy Bear with Chocolate",
         price: "Rp 85.000,-",
         image: "teddysilverqueen-hero.jpeg",
-        desc: "Teddy Bear & Silverqueen Bouquet with Rose."
-	   },
+        desc: "Teddy Bear & Silverqueen Bouquet with Rose.",
+	    tag: ["valentine"]
+	  },
 	   {
 	   name: "Bunny Bouquet with Pocky",
         price: "Rp 80.000,-",
         image: "bouquetkelinci-hero.jpeg",
-        desc: "Small Bunny with 2 Pocky."
+        desc: "Small Bunny with 2 Pocky.",
+		tag: ["valentine"]
 	   },
 	   {
 	    name: "Flower Board",
         price: "Start from Rp 250.000,-",
         image: "papanbunga-hero.jpeg",
-        desc: "Order by request, depends on size and flowers placing."
+        desc: "Order by request, depends on size and flowers placing.",
+	    tag: ["classic"]
 	   }
     ];
 
-    const grid = document.getElementById("produkGrid");
-  grid.innerHTML = products.map(p => `
+const gridAll = document.getElementById("produkGrid");
+const gridVal = document.getElementById("valentineGrid");
+
+// helper: fallback kalau image belum ada (anti murahan)
+function renderCard(p){
+  return `
     <div class="produk-item" data-produk="${p.name}" data-harga="${p.price}">
-      <img class="produk-img" src="${p.image}" alt="${p.name}">
+      <div class="img-wrap">
+        <img class="produk-img" src="${p.image}" alt="${p.name}"
+             onerror="this.style.display='none'; this.parentElement.classList.add('img-fallback');">
+        <div class="img-fallback-ui" aria-hidden="true">
+          <div class="fallback-rose">🌹</div>
+          <div class="fallback-text">Image Preview<br><span>Coming soon</span></div>
+        </div>
+      </div>
+
       <h3>${p.name}</h3>
       <p>${p.desc}</p>
       <span class="harga">${p.price}</span>
     </div>
-  `).join("");
+  `;
+}
+
+function mountGrid(el, list){
+  // animasi smooth: fade out -> update -> fade in
+  el.classList.add("is-fading");
+  window.setTimeout(() => {
+    el.innerHTML = list.map(renderCard).join("");
+    el.classList.remove("is-fading");
+  }, 160);
+}
+
+// render awal
+mountGrid(gridAll, products);
+if (gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("valentine")));
 
   // ====== 2) LIGHTBOX ======
   const imgLightbox = document.getElementById("imgLightbox");
@@ -309,9 +376,10 @@
   // toggle hamburger
   navToggle.addEventListener("click", () => {
     const open = nav.classList.toggle("is-open");
-	navToggle.classList.toggle("is-active");
-    navToggle.classList.toggle("is-active");
+    navToggle.classList.toggle("is-active", open);
     navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    
+
   });
 
   // klik menu => tutup
@@ -319,6 +387,7 @@
     const link = e.target.closest('nav a[href^="#"]');
     if (!link) return;
     nav.classList.remove("is-open");
+	navToggle.classList.remove("is-active");
     navToggle.setAttribute("aria-expanded", "false");
   });
 
@@ -345,6 +414,26 @@
 
     lastY = y;
   });
+// ====== FILTER UI (Show All / Valentine) ======
+const btnAll = document.getElementById("btnAll");
+const btnVal = document.getElementById("btnVal");
+
+function setActive(activeBtn){
+  [btnAll, btnVal].forEach(b => b.classList.remove("is-active"));
+  activeBtn.classList.add("is-active");
+}
+
+btnAll?.addEventListener("click", () => {
+  setActive(btnAll);
+  mountGrid(gridAll, products);
+});
+
+btnVal?.addEventListener("click", () => {
+  setActive(btnVal);
+  mountGrid(gridAll, products.filter(p => p.tag?.includes("valentine")));
+  // optional: scroll halus ke area produk
+  document.getElementById("produk").scrollIntoView({ behavior: "smooth" });
+});
 </script>
 
 

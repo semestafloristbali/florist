@@ -35,6 +35,10 @@ header .container {
   align-items: center;
   padding: 20px;
 }
+header .container{
+  position: relative;
+}
+
 
 .logo {
   font-family: 'Playfair Display', serif;
@@ -549,27 +553,66 @@ header.is-hidden{
 }
 
 /* Back to top button */
+/* Luxury Back To Top */
 .to-top{
   position: fixed;
-  right: 18px;
-  bottom: 18px;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  border: 1px solid rgba(0,0,0,.10);
-  background: rgba(255,255,255,.9);
-  box-shadow: 0 12px 35px rgba(0,0,0,.18);
+  right: 22px;
+  bottom: 22px;
+
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+
+  border: 1px solid rgba(139,90,60,.35); /* warna brand */
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,.95),
+    rgba(245,235,225,.9)
+  );
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  color: #8b5a3c;
+  font-size: 20px;
+  font-weight: 600;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.6);
+
   cursor: pointer;
+
   opacity: 0;
   visibility: hidden;
-  transform: translateY(10px);
-  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+  transform: translateY(14px) scale(.95);
+
+  transition:
+    opacity .35s ease,
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    visibility .35s ease;
+
   z-index: 9999;
 }
+
+/* muncul */
 .to-top.is-show{
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+}
+
+/* hover luxury */
+.to-top:hover{
+  transform: translateY(-4px) scale(1.03);
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* active */
+.to-top:active{
+  transform: translateY(0) scale(.98);
 }
 
 /* ===== Mobile Nav (HP) ===== */
@@ -635,3 +678,295 @@ header.is-hidden{
   }
 }
 
+/* =========================
+   VALENTINE LUXURY THEME
+========================= */
+
+body{
+  background: linear-gradient(180deg, #fff6f8 0%, #f9f9f9 55%, #ffffff 100%);
+}
+
+/* Logo Valentine */
+.logo{
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.logo-script{
+  font-family: "Great Vibes", cursive;
+  font-size: 2.2rem;
+  letter-spacing: .02em;
+  color: #b31237; /* deep rose red */
+}
+
+.logo-text{
+  font-family: "Playfair Display", serif;
+  font-size: 1.2rem;
+  color: #8b5a3c;
+  opacity: .95;
+}
+
+.logo-mark{
+  color: #b31237;
+  opacity: .9;
+}
+
+/* Hero actions */
+.hero-actions{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Buttons Valentine */
+.cta-valentine{
+  background: linear-gradient(135deg, #b31237 0%, #8b5a3c 120%);
+  box-shadow: 0 18px 45px rgba(179,18,55,.22);
+  border: 1px solid rgba(179,18,55,.16);
+}
+
+.cta-valentine:hover{
+  filter: brightness(1.03);
+  box-shadow: 0 22px 60px rgba(179,18,55,.30);
+}
+
+.cta-ghost{
+  background: rgba(255,255,255,.75);
+  color: #8b5a3c;
+  border: 1px solid rgba(139,90,60,.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 14px 35px rgba(0,0,0,.10);
+}
+
+.cta-ghost:hover{
+  box-shadow: 0 18px 55px rgba(0,0,0,.14);
+}
+
+/* Hero Valentine background (soft roses vibe) */
+.hero{
+  position: relative;
+  background:
+    radial-gradient(1200px 500px at 20% 10%, rgba(255, 140, 170, .22), transparent 60%),
+    radial-gradient(900px 450px at 90% 30%, rgba(255, 220, 230, .28), transparent 55%),
+    linear-gradient(135deg, #fff0f4 0%, #f7efe9 100%);
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.6;
+  background-image:
+    radial-gradient(circle at 18% 28%, rgba(179,18,55,.10) 0 2px, transparent 3px),
+    radial-gradient(circle at 42% 18%, rgba(179,18,55,.08) 0 2px, transparent 3px),
+    radial-gradient(circle at 78% 38%, rgba(179,18,55,.10) 0 2px, transparent 3px),
+    radial-gradient(circle at 64% 70%, rgba(179,18,55,.08) 0 2px, transparent 3px);
+}
+
+/* ====== NAV ROSE (hamburger 3 mawar, no box) ====== */
+.nav-rose{
+  display: none; /* default desktop hidden */
+  border: 0 !important;
+  background: transparent !important;
+  padding: 6px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.nav-rose .rose{
+  display: block;
+  font-size: 18px;         /* ukuran mawar */
+  line-height: 18px;
+  margin: 3px 0;           /* jarak antar mawar */
+  transform: translateZ(0);
+  filter: drop-shadow(0 10px 18px rgba(179,18,55,.18));
+}
+
+.nav-rose:active .rose{
+  transform: translateY(1px);
+}
+/* Rose animation when menu open */
+.nav-rose.is-active .rose:nth-child(1){
+  transform: translateY(1px) rotate(-6deg) scale(1.05);
+  filter: drop-shadow(0 16px 26px rgba(179,18,55,.28));
+}
+.nav-rose.is-active .rose:nth-child(2){
+  transform: translateY(0) rotate(0deg) scale(1.10);
+  filter: drop-shadow(0 18px 30px rgba(179,18,55,.32));
+}
+.nav-rose.is-active .rose:nth-child(3){
+  transform: translateY(-1px) rotate(6deg) scale(1.05);
+  filter: drop-shadow(0 16px 26px rgba(179,18,55,.28));
+}
+
+/* smooth floating luxury */
+.nav-rose .rose{
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), filter .35s ease;
+}
+.nav-rose.is-active .rose{
+  animation: roseFloat 1.9s ease-in-out infinite;
+}
+@keyframes roseFloat{
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-2px); }
+}
+
+/* dropdown nav (mobile) lebih luxury */
+@media (max-width: 768px){
+  .logo-script{ font-size: 1.8rem; }
+  .logo-text{ font-size: 1.05rem; }
+
+  .nav-rose{ display: inline-flex; flex-direction: column; }
+
+  /* sembunyikan menu horizontal di HP */
+  nav ul{
+    position: absolute;
+    top: 100%;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 22px 20px;
+    margin-top: 14px;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 18px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.18);
+    border: 1px solid rgba(179,18,55,.10);
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity .35s ease, transform .35s ease;
+  }
+
+  .nav.is-open ul{
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  nav ul li{ margin: 0; }
+  nav ul li a{
+    font-size: 16px;
+    padding: 10px 6px;
+    display: block;
+  }
+}
+
+/* Thank you modal Valentine badge */
+.ty-badge-val{
+  background: rgba(179,18,55,.06);
+  border: 1px solid rgba(179,18,55,.12);
+  color: rgba(179,18,55,.92);
+}
+
+/* Footer Valentine */
+footer{
+  background: linear-gradient(135deg, #8b5a3c 0%, #b31237 120%);
+}
+
+/* Back-to-top lebih luxury (jika kamu pakai to-top) */
+.to-top{
+  border: 1px solid rgba(179,18,55,.30);
+  color: #b31237;
+  background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(255,230,238,.92));
+  box-shadow:
+    0 16px 45px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.7);
+}
+/* Filter buttons (luxury pill) */
+.collection-actions{
+  display:flex;
+  justify-content:center;
+  gap: 10px;
+  margin: 10px 0 30px;
+  flex-wrap: wrap;
+}
+
+.pill-btn{
+  border: 1px solid rgba(179,18,55,.16);
+  background: rgba(255,255,255,.75);
+  color: #8b5a3c;
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: .01em;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 14px 35px rgba(0,0,0,.10);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.pill-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 18px 50px rgba(0,0,0,.14);
+}
+
+.pill-btn.is-active{
+  background: linear-gradient(135deg, rgba(179,18,55,.12), rgba(139,90,60,.10));
+  border-color: rgba(179,18,55,.28);
+  color: #b31237;
+}
+
+/* Smooth fade update grid */
+.produk-grid.is-fading{
+  opacity: .35;
+  transform: translateY(6px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.produk-grid{
+  transition: opacity .28s ease, transform .28s ease;
+}
+
+/* Valentine section subtitle */
+.produk-valentine .val-sub{
+  text-align:center;
+  max-width: 720px;
+  margin: -20px auto 35px;
+  opacity: .78;
+}
+
+/* Elegant image wrapper + fallback */
+.img-wrap{
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.img-fallback-ui{
+  display:none;
+  place-items:center;
+  padding: 24px 12px;
+  height: 200px;
+  background:
+    radial-gradient(700px 200px at 20% 20%, rgba(179,18,55,.10), transparent 60%),
+    linear-gradient(135deg, rgba(255,240,244,.95), rgba(247,239,233,.95));
+}
+
+.img-wrap.img-fallback .img-fallback-ui{
+  display:grid;
+}
+
+.fallback-rose{
+  font-size: 28px;
+  filter: drop-shadow(0 16px 28px rgba(179,18,55,.18));
+  margin-bottom: 10px;
+}
+
+.fallback-text{
+  font-size: 13px;
+  letter-spacing: .02em;
+  opacity: .85;
+  line-height: 1.35;
+}
+.fallback-text span{
+  font-style: italic;
+  opacity: .75;
+}
