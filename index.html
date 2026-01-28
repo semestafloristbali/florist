@@ -309,6 +309,8 @@
   // toggle hamburger
   navToggle.addEventListener("click", () => {
     const open = nav.classList.toggle("is-open");
+	navToggle.classList.toggle("is-active");
+    navToggle.classList.toggle("is-active");
     navToggle.setAttribute("aria-expanded", open ? "true" : "false");
   });
 
