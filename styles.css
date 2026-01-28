@@ -557,31 +557,64 @@ header.is-hidden{
 
 /* ===== Mobile Nav (HP) ===== */
 @media (max-width: 768px){
-  /* logo & header padding biar gak kegedean */
-  .logo{ font-size: 1.4rem; }
-  header .container{ padding: 12px 16px; }
 
-  /* hamburger muncul */
-  .nav-toggle{ display:flex; }
+  /* header lebih ramping */
+  .logo{
+    font-size: 1.35rem;
+  }
 
-  /* nav jadi dropdown */
+  header .container{
+    padding: 12px 16px;
+  }
+
+  /* hamburger icon */
+  .nav-toggle{
+    display: block;
+  }
+
+  /* dropdown nav luxury */
   nav ul{
-    display:none;               /* hide default */
+    position: absolute;
+    top: 100%;
+    left: 16px;
+    right: 16px;
+
+    display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 12px;
-    padding: 14px;
+    gap: 14px;
+
+    padding: 22px 20px;
+    margin-top: 14px;
+
     background: rgba(255,255,255,.96);
-    border: 1px solid rgba(0,0,0,.06);
-    border-radius: 14px;
-    box-shadow: 0 18px 55px rgba(0,0,0,.10);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-radius: 18px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.18);
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+
+    transition: opacity .35s ease, transform .35s ease;
   }
 
-  /* saat nav dibuka */
+  /* menu aktif */
   .nav.is-open ul{
-    display:flex;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 
-  nav ul li{ margin-left: 0; }
-  nav ul li a{ padding: 10px 8px; display:block; }
+  nav ul li{
+    margin: 0;
+  }
+
+  nav ul li a{
+    font-size: 16px;
+    padding: 10px 6px;
+    display: block;
+  }
 }
+

@@ -308,10 +308,19 @@ const navToggle = document.getElementById("navToggle");
 const toTop = document.getElementById("toTop");
 
 // 1) Mobile nav toggle
-navToggle.addEventListener("click", () => {
-  const open = nav.classList.toggle("is-open");
-  navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+<script>
+  const nav = document.getElementById("siteNav");
+  const navToggle = document.getElementById("navToggle");
+
+document.addEventListener("click", (e) => {
+  const link = e.target.closest('nav a[href^="#"]');
+  if (!link) return;
+
+  nav.classList.remove("is-open");
+  navToggle.classList.remove("is-active");
+  navToggle.setAttribute("aria-expanded", "false");
 });
+
 
 // 2) Klik menu di HP -> tutup menu + scroll halus
 document.addEventListener("click", (e) => {
