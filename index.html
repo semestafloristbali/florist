@@ -231,7 +231,7 @@
         image: "papanbunga-hero.jpeg",
         desc: "Order by request, depends on size and flowers placing.",
 	    tag: ["classic"]
-	   }
+	   },
     ];
 
 const gridAll = document.getElementById("produkGrid");
@@ -259,6 +259,7 @@ function renderCard(p){
 
 function mountGrid(el, list){
   // animasi smooth: fade out -> update -> fade in
+   if(!el) return;
   el.classList.add("is-fading");
   window.setTimeout(() => {
     el.innerHTML = list.map(renderCard).join("");
@@ -290,13 +291,12 @@ if (gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("valentine"
     document.body.style.overflow = "";
   }
 
-  imgClose.addEventListener("click", closeImage);
-  imgLightbox.addEventListener("click", (e) => {
+  imgClose?.addEventListener("click", closeImage);
+  imgLightbox?.addEventListener("click", (e) => {
     if (e.target === imgLightbox) closeImage();
   });
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeImage();
-  });
+    if (e.key === "Escape") closeImage(); });
 
   // klik gambar => lightbox
   document.addEventListener("click", function (e) {
@@ -343,9 +343,9 @@ if (gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("valentine"
     document.body.style.overflow = "";
   }
 
-  closeBtn.addEventListener("click", closeThankyou);
-  okBtn.addEventListener("click", closeThankyou);
-  modal.addEventListener("click", (ev) => {
+  closeBtn?.addEventListener("click", closeThankyou);
+  okBtn?.addEventListener("click", closeThankyou);
+  modal?.addEventListener("click", (ev) => {
     if (ev.target === modal) closeThankyou();
   });
   window.addEventListener("keydown", (ev) => {
@@ -380,10 +380,10 @@ const navToggle = document.getElementById("navToggle");
 const toTop = document.getElementById("toTop");
 
 /* ROSE TOGGLE */
-navToggle.addEventListener("click", () => {
+navToggle?.addEventListener("click", () => {
   const open = nav.classList.toggle("is-open");
   navToggle.classList.toggle("is-open-rose", open);
-  navToggle.setAttribute("aria-expanded", open);
+  navToggle.setAttribute("aria-expanded", open? "true" : "false");
 });
 
 /* CLICK OUTSIDE CLOSE */
@@ -407,18 +407,13 @@ toTop.addEventListener("click", () => {
     if (y > 500) toTop.classList.add("is-show");
     else toTop.classList.remove("is-show");
 
-    const goingDown = y > lastY;
-    const nearTop = y < 80;
 
-    if (nearTop) header.classList.remove("is-hidden");
-    else if (goingDown) header.classList.add("is-hidden");
+    if (y > lastY && y > 80) header.classList.add("is-hidden");
     else header.classList.remove("is-hidden");
 
     lastY = y;
   });
 
-
-<script>
 // ====== FILTER UI (Show All / Valentine) ======
 const btnAll = document.getElementById("btnAll");
 const btnVal = document.getElementById("btnVal");
