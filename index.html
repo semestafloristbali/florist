@@ -72,6 +72,7 @@
     </div>
   </div>
 </section>
+  
   <section id="produk" class="produk">
     <div class="container">
       <h2>Our Collection</h2>
@@ -373,7 +374,6 @@ if (gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("valentine"
   });
 
   // ====== 4) HEADER + MOBILE NAV + BACK TO TOP ======
-  <script>
 const header = document.getElementById("siteHeader");
 const nav = document.getElementById("siteNav");
 const navToggle = document.getElementById("navToggle");
@@ -391,6 +391,7 @@ document.addEventListener("click", e => {
   if(e.target.closest("#navToggle") || e.target.closest("#siteNav")) return;
   nav.classList.remove("is-open");
   navToggle.classList.remove("is-open-rose");
+  navToggle.setAttribute("aria-expanded", "false");
 });
 
 /* BACK TO TOP */
@@ -399,20 +400,25 @@ toTop.addEventListener("click", () => {
 });
 
 /* HEADER HIDE + TOP BUTTON */
-let lastY = window.scrollY;
-window.addEventListener("scroll", () => {
-  const y = window.scrollY;
+  let lastY = window.scrollY;
+  window.addEventListener("scroll", () => {
+    const y = window.scrollY;
 
-  y > 500 ? toTop.classList.add("is-show")
-          : toTop.classList.remove("is-show");
+    if (y > 500) toTop.classList.add("is-show");
+    else toTop.classList.remove("is-show");
 
-  if(y > lastY && y > 120) header.classList.add("is-hidden");
-  else header.classList.remove("is-hidden");
+    const goingDown = y > lastY;
+    const nearTop = y < 80;
 
-  lastY = y;
-});
-</script>
+    if (nearTop) header.classList.remove("is-hidden");
+    else if (goingDown) header.classList.add("is-hidden");
+    else header.classList.remove("is-hidden");
 
+    lastY = y;
+  });
+
+
+<script>
 // ====== FILTER UI (Show All / Valentine) ======
 const btnAll = document.getElementById("btnAll");
 const btnVal = document.getElementById("btnVal");
