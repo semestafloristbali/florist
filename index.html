@@ -56,7 +56,19 @@
   </div>
 </header>
 
-<section id="moneybouquet" class="moneybouquet">
+<section id="home" class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h2>Elevate Every Occasion with Exquisite Florals.</h2>
+      <p>Find our collection of tropical flowers and luxurious bouquet to blooming your day!</p>
+   
+	<div class="hero-actions">
+      <a href="#valentine" class="cta-button cta-valentine">Valentine Collection</a>
+      <a href="#kontak" class="cta-button cta-ghost">Contact Us</a>
+    </div>
+  </div>
+  
+  <section id="moneybouquet" class="moneybouquet">
   <div class="container">
     <h2>Money Bouquet</h2>
     <p class="mb-sub">
@@ -79,11 +91,18 @@
             <img class="mb-img" src="buketuang20k-hero.jpeg" alt="Money Bouquet 3">
           </button>
         </div>
+		
+		<div id="imgLightbox" class="img-overlay" aria-hidden="true">
+  <div class="img-modal" role="dialog" aria-modal="true" aria-label="Product image">
+    <button type="button" class="img-close" id="imgClose" aria-label="Close">×</button>
 
         <!-- Controls -->
-        <button class="mb-nav mb-prev" id="mbPrev" type="button" aria-label="Previous slide">‹</button>
-        <button class="mb-nav mb-next" id="mbNext" type="button" aria-label="Next slide">›</button>
-
+        <button type="button" class="img-nav img-prev" id="imgPrev" aria-label="Previous image">‹</button>
+        <button type="button" class="img-nav img-next" id="imgNext" aria-label="Next image">›</button>
+    
+	        <img id="imgPreview" src="" alt="Preview">
+  </div>
+</div
         <!-- Dots -->
         <div class="mb-dots" id="mbDots" aria-label="Slideshow dots"></div>
       </div>
@@ -118,19 +137,6 @@
     </div>
   </div>
 </section>
-
-
-<section id="home" class="hero">
-  <div class="container">
-    <div class="hero-content">
-      <h2>Elevate Every Occasion with Exquisite Florals.</h2>
-      <p>Find our collection of tropical flowers and luxurious bouquet to blooming your day!</p>
-   
-	<div class="hero-actions">
-      <a href="#valentine" class="cta-button cta-valentine">Valentine Collection</a>
-      <a href="#kontak" class="cta-button cta-ghost">Contact Us</a>
-    </div>
-  </div>
    
    <div class="hero-image">
       <img src="mawarmerah-hero.jpeg" alt="Red Rose">
@@ -224,7 +230,12 @@
 <div id="imgLightbox" class="img-overlay" aria-hidden="true">
   <div class="img-modal" role="dialog" aria-modal="true" aria-label="Product image">
     <button type="button" class="img-close" id="imgClose" aria-label="Close">×</button>
-    <img id="imgPreview" src="" alt="Preview">
+     
+	 <!-- NEW: Prev / Next buttons -->
+    <button type="button" class="img-nav img-prev" id="imgPrev" aria-label="Previous image">‹</button>
+    <button type="button" class="img-nav img-next" id="imgNext" aria-label="Next image">›</button>
+	
+	<img id="imgPreview" src="" alt="Preview">
   </div>
 </div>
 
@@ -336,39 +347,83 @@ function mountGrid(el, list){
 mountGrid(gridAll, products);
 if (gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("valentine")));
 
-  // ====== 2) LIGHTBOX ======
-  const imgLightbox = document.getElementById("imgLightbox");
-  const imgPreview  = document.getElementById("imgPreview");
-  const imgClose    = document.getElementById("imgClose");
+// ====== 2) LIGHTBOX (GALLERY SUPPORT) ======
+const imgLightbox = document.getElementById("imgLightbox");
+const imgPreview  = document.getElementById("imgPreview");
+const imgClose    = document.getElementById("imgClose");
+const imgPrev     = document.getElementById("imgPrev");
+const imgNext     = document.getElementById("imgNext");
 
-  function openImage(src, alt){
-    imgPreview.src = src;
-    imgPreview.alt = alt || "Preview";
-    imgLightbox.classList.add("is-open");
-    imgLightbox.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-  }
+// gallery state
+let LB_IMAGES = [];
+let LB_INDEX = 0;
 
-  function closeImage(){
-    imgLightbox.classList.remove("is-open");
-    imgLightbox.setAttribute("aria-hidden", "true");
-    imgPreview.src = "";
-    document.body.style.overflow = "";
-  }
+function lbRender(){
+  const item = LB_IMAGES[LB_INDEX];
+  if(!item) return;
 
-  imgClose?.addEventListener("click", closeImage);
-  imgLightbox?.addEventListener("click", (e) => {
-    if (e.target === imgLightbox) closeImage();
-  });
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeImage(); });
+  imgPreview.src = item.src;
+  imgPreview.alt = item.alt || "Preview";
 
-  // klik gambar => lightbox
-  document.addEventListener("click", function (e) {
-    const img = e.target.closest(".produk-img");
-    if (!img) return;
-    openImage(img.getAttribute("src"), img.getAttribute("alt"));
-  });
+  // hide arrows if only 1
+  const many = LB_IMAGES.length > 1;
+  imgPrev?.classList.toggle("is-hidden", !many);
+  imgNext?.classList.toggle("is-hidden", !many);
+}
+
+function openGallery(images, startIndex = 0){
+  LB_IMAGES = Array.isArray(images) && images.length ? images : [];
+  LB_INDEX = Math.max(0, Math.min(startIndex, LB_IMAGES.length - 1));
+
+  if(!LB_IMAGES.length) return;
+
+  lbRender();
+  imgLightbox.classList.add("is-open");
+  imgLightbox.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeImage(){
+  imgLightbox.classList.remove("is-open");
+  imgLightbox.setAttribute("aria-hidden", "true");
+  imgPreview.src = "";
+  document.body.style.overflow = "";
+  LB_IMAGES = [];
+  LB_INDEX = 0;
+}
+
+// backward compatible: openImage(src, alt) still works
+function openImage(src, alt){
+  openGallery([{ src, alt }], 0);
+}
+
+function lbNext(){
+  if(LB_IMAGES.length <= 1) return;
+  LB_INDEX = (LB_INDEX + 1) % LB_IMAGES.length;
+  lbRender();
+}
+function lbPrev(){
+  if(LB_IMAGES.length <= 1) return;
+  LB_INDEX = (LB_INDEX - 1 + LB_IMAGES.length) % LB_IMAGES.length;
+  lbRender();
+}
+
+imgClose?.addEventListener("click", closeImage);
+imgLightbox?.addEventListener("click", (e) => {
+  if (e.target === imgLightbox) closeImage();
+});
+
+imgNext?.addEventListener("click", (e)=>{ e.stopPropagation(); lbNext(); });
+imgPrev?.addEventListener("click", (e)=>{ e.stopPropagation(); lbPrev(); });
+
+window.addEventListener("keydown", (e) => {
+  if (!imgLightbox.classList.contains("is-open")) return;
+
+  if (e.key === "Escape") closeImage();
+  if (e.key === "ArrowRight") lbNext();
+  if (e.key === "ArrowLeft") lbPrev();
+});
+
 
   // klik card (bukan gambar) => isi order + scroll
   document.addEventListener("click", function (e) {
@@ -533,17 +588,25 @@ btnVal?.addEventListener("click", () => {
   prevBtn?.addEventListener("click", ()=>{ setActive(idx-1); restart(); });
   nextBtn?.addEventListener("click", ()=>{ setActive(idx+1); restart(); });
 
-  // click image => open your existing lightbox
-  // kamu sudah punya function openImage(src, alt) di script — kita panggil itu.
-  slides.forEach((btn)=>{
-    btn.addEventListener("click", ()=>{
-      const img = btn.querySelector("img");
-      if(!img) return;
-      if(typeof openImage === "function"){
-        openImage(img.getAttribute("src"), img.getAttribute("alt"));
+    // click slide => open GALLERY lightbox (bisa next/prev)
+  slides.forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+      const imgs = slides
+        .map(s => s.querySelector("img"))
+        .filter(Boolean)
+        .map(im => ({ src: im.getAttribute("src"), alt: im.getAttribute("alt") }));
+
+      // buka lightbox sebagai gallery
+      if (typeof openGallery === "function") {
+        openGallery(imgs, i);
+      } else if (typeof openImage === "function") {
+        // fallback kalau openGallery belum ada
+        const im = btn.querySelector("img");
+        if (im) openImage(im.getAttribute("src"), im.getAttribute("alt"));
       }
     });
   });
+
 
   // autoplay
   function start(){
