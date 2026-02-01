@@ -48,12 +48,77 @@
       <ul>
         <li><a href="#home">Beranda</a></li>
         <li><a href="#produk">Produk</a></li>
+		<li><a href="#moneybouquet">Money Bouquet</a></li>
         <li><a href="#tentang">Tentang Kami</a></li>
         <li><a href="#kontak">Kontak</a></li>
       </ul>
     </nav>
   </div>
 </header>
+
+<section id="moneybouquet" class="moneybouquet">
+  <div class="container">
+    <h2>Money Bouquet</h2>
+    <p class="mb-sub">
+      Signature cash bouquet with premium wrapping — elegant, modern, and crafted for a statement gift.
+    </p>
+
+    <div class="mb-card">
+      <div class="mb-carousel" id="mbCarousel" aria-label="Money bouquet slideshow">
+        <!-- Slides -->
+        <div class="mb-slides" id="mbSlides">
+          <button class="mb-slide is-active" type="button">
+            <img class="mb-img" src="buketuang5kipas-hero.jpeg" alt="Money Bouquet 1">
+          </button>
+
+          <button class="mb-slide" type="button">
+            <img class="mb-img" src="buketuang10kcottoncandy-hero.jpeg" alt="Money Bouquet 2">
+          </button>
+
+          <button class="mb-slide" type="button">
+            <img class="mb-img" src="buketuang20k-hero.jpeg" alt="Money Bouquet 3">
+          </button>
+        </div>
+
+        <!-- Controls -->
+        <button class="mb-nav mb-prev" id="mbPrev" type="button" aria-label="Previous slide">‹</button>
+        <button class="mb-nav mb-next" id="mbNext" type="button" aria-label="Next slide">›</button>
+
+        <!-- Dots -->
+        <div class="mb-dots" id="mbDots" aria-label="Slideshow dots"></div>
+      </div>
+
+      <!-- Right info -->
+      <div class="mb-info">
+        <div class="mb-badge">SIGNATURE • PREMIUM</div>
+        <h3 class="mb-title">Money Bouquet Order</h3>
+        <p class="mb-desc">
+          Click the slideshow to view the photos in full size. To order, tap the button below — the details will be automatically filled into the form.
+        </p>
+
+        <div class="mb-meta">
+          <div class="mb-meta-row">
+            <span>Starting from</span>
+            <strong>Rp 100.000</strong>
+          </div>
+          <div class="mb-meta-row">
+            <span>Note</span>
+            <strong>Cash value optional</strong>
+          </div>
+        </div>
+
+        <button type="button" class="cta-button mb-cta" id="mbOrderFill">
+          Order Money Bouquet
+        </button>
+
+        <div class="mb-footnote">
+          You can request wrapping color, cash value, and card message via WhatsApp.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section id="home" class="hero">
   <div class="container">
@@ -434,9 +499,256 @@ btnVal?.addEventListener("click", () => {
   // optional: scroll halus ke area produk
   document.getElementById("produk").scrollIntoView({ behavior: "smooth" });
 });
+// ====== MONEY BOUQUET SECTION SLIDESHOW (SEPARATE) ======
+(function(){
+  const carousel = document.getElementById("mbCarousel");
+  if(!carousel) return;
+
+  const slidesWrap = document.getElementById("mbSlides");
+  const slides = Array.from(slidesWrap.querySelectorAll(".mb-slide"));
+  const prevBtn = document.getElementById("mbPrev");
+  const nextBtn = document.getElementById("mbNext");
+  const dotsWrap = document.getElementById("mbDots");
+  const orderFillBtn = document.getElementById("mbOrderFill");
+
+  let idx = 0;
+  let timer = null;
+  const AUTOPLAY = true;        // ubah false kalau tidak mau auto
+  const INTERVAL = 3800;        // durasi slide
+  const PAUSE_ON_HOVER = true;
+
+  function setActive(i){
+    idx = (i + slides.length) % slides.length;
+    slides.forEach((s, k) => s.classList.toggle("is-active", k === idx));
+    const dots = dotsWrap.querySelectorAll(".mb-dot");
+    dots.forEach((d, k) => d.classList.toggle("is-active", k === idx));
+  }
+
+  // build dots
+  dotsWrap.innerHTML = slides.map((_,i)=>`<button class="mb-dot ${i===0?'is-active':''}" type="button" aria-label="Go to slide ${i+1}"></button>`).join("");
+  dotsWrap.querySelectorAll(".mb-dot").forEach((dot,i)=>{
+    dot.addEventListener("click", ()=>{ setActive(i); restart(); });
+  });
+
+  prevBtn?.addEventListener("click", ()=>{ setActive(idx-1); restart(); });
+  nextBtn?.addEventListener("click", ()=>{ setActive(idx+1); restart(); });
+
+  // click image => open your existing lightbox
+  // kamu sudah punya function openImage(src, alt) di script — kita panggil itu.
+  slides.forEach((btn)=>{
+    btn.addEventListener("click", ()=>{
+      const img = btn.querySelector("img");
+      if(!img) return;
+      if(typeof openImage === "function"){
+        openImage(img.getAttribute("src"), img.getAttribute("alt"));
+      }
+    });
+  });
+
+  // autoplay
+  function start(){
+    if(!AUTOPLAY) return;
+    stop();
+    timer = setInterval(()=> setActive(idx+1), INTERVAL);
+  }
+  function stop(){
+    if(timer) clearInterval(timer);
+    timer = null;
+  }
+  function restart(){
+    if(!AUTOPLAY) return;
+    start();
+  }
+
+  if(PAUSE_ON_HOVER){
+    carousel.addEventListener("mouseenter", stop);
+    carousel.addEventListener("mouseleave", start);
+  }
+
+  // initial
+  setActive(0);
+  start();
+
+  // button: auto fill order form + scroll
+  orderFillBtn?.addEventListener("click", ()=>{
+    const pesanField = document.getElementById("pesan");
+    if(pesanField){
+      pesanField.value =
+        `Product: Money Bouquet\n` +
+        `Starting from: Rp 100.000 (excluding cash)\n\n` +
+        `Cash value (optional):\n` +
+        `Wrapping color:\n` +
+        `Card message:\n\n` +
+        `Delivery date:\n` +
+        `Address:\n` +
+        `Notes:`;
+    }
+    document.getElementById("kontak").scrollIntoView({ behavior: "smooth" });
+  });
+})();
+
+
+// order via WA
+mbp.orderBtn?.addEventListener("click", ()=>{
+  const text = mbpBuildText();
+  const url = `https://wa.me/${MBP_WHATSAPP}?text=${encodeURIComponent(text)}`;
+  window.open(url, "_blank", "noopener,noreferrer");
+
+  // show your existing thankyou modal for consistent luxury feel
+  requestAnimationFrame(() => {
+    const modal = document.getElementById("thankyouModal");
+    if(modal){
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";
+    }
+  });
+
+  // close premium modal
+  mbpClose();
+});
+
+// copy details
+mbp.copyBtn?.addEventListener("click", async ()=>{
+  const text = mbpBuildText();
+  try{
+    await navigator.clipboard.writeText(text);
+    mbp.copyBtn.textContent = "Copied ✓";
+    setTimeout(()=> mbp.copyBtn.textContent = "Copy details", 1200);
+  }catch(e){
+    alert("Gagal copy. Ini detailnya:\n\n" + text);
+  }
+});
+
+// intercept click card Money Bouquet => open premium modal
+document.addEventListener("click", function (e) {
+  // jangan ganggu kalau klik gambar (lightbox kamu)
+  if (e.target.closest(".produk-img")) return;
+
+  const card = e.target.closest(".produk-item");
+  if (!card) return;
+
+  const namaProduk = (card.dataset.produk || "").toLowerCase();
+  if (!namaProduk.includes("money bouquet")) return;
+
+  // buka premium modal
+  mbpOpen();
+});
+
 </script>
 
 
 
+<!-- Premium Money Bouquet Modal -->
+<div id="mbPremium" class="mbp-overlay" aria-hidden="true">
+  <div class="mbp-modal" role="dialog" aria-modal="true" aria-labelledby="mbpTitle">
+    <button type="button" class="mbp-close" id="mbpClose" aria-label="Close">×</button>
+
+    <div class="mbp-wrap">
+      <!-- Left: Gallery -->
+      <div class="mbp-gallery">
+        <div class="mbp-main">
+          <img id="mbpMainImg" src="moneybouquet-hero.jpeg" alt="Money Bouquet">
+        </div>
+        <div class="mbp-thumbs" role="list">
+          <button class="mbp-thumb is-active" type="button" data-img="moneybouquet-hero.jpeg" aria-label="Image 1">
+            <img src="moneybouquet-hero.jpeg" alt="Thumb 1">
+          </button>
+          <button class="mbp-thumb" type="button" data-img="moneybouquet-2.jpeg" aria-label="Image 2">
+            <img src="moneybouquet-2.jpeg" alt="Thumb 2">
+          </button>
+          <button class="mbp-thumb" type="button" data-img="moneybouquet-3.jpeg" aria-label="Image 3">
+            <img src="moneybouquet-3.jpeg" alt="Thumb 3">
+          </button>
+        </div>
+        <div class="mbp-gallery-note">Tap image to zoom is handled by your existing lightbox (optional).</div>
+      </div>
+
+      <!-- Right: Details -->
+      <div class="mbp-detail">
+        <div class="mbp-badge">SIGNATURE • PREMIUM</div>
+        <h3 class="mbp-title" id="mbpTitle">Money Bouquet</h3>
+        <p class="mbp-sub">
+          Cash arrangement with luxury wrap + personalized card.
+          <span class="mbp-muted">Cash value optional.</span>
+        </p>
+
+        <div class="mbp-priceRow">
+          <div>
+            <div class="mbp-small">Starting from</div>
+            <div class="mbp-price" id="mbpStarting">Rp 100000</div>
+          </div>
+          <div class="mbp-chip">Handcrafted</div>
+        </div>
+
+        <div class="mbp-line"></div>
+
+        <div class="mbp-form">
+          <div class="mbp-field">
+            <label class="mbp-label" for="mbpSize">Size</label>
+            <select id="mbpSize" class="mbp-input">
+              <option value="S" data-base="350000">S — 10–20 bills</option>
+              <option value="M" data-base="500000" selected>M — 20–50 bills</option>
+              <option value="L" data-base="750000">L — 100+ bills</option>
+            </select>
+            <div class="mbp-help">Base price = arrangement + premium materials.</div>
+          </div>
+
+          <div class="mbp-field">
+            <label class="mbp-label" for="mbpCash">Cash value (optional)</label>
+            <input id="mbpCash" class="mbp-input" inputmode="numeric" placeholder="contoh: 1000000">
+            <div class="mbp-help">Fill up, if you want Us to prepare your money bouquet!</div>
+          </div>
+
+          <div class="mbp-field">
+            <label class="mbp-label" for="mbpWrap">Wrapping color</label>
+            <select id="mbpWrap" class="mbp-input">
+              <option value="Ivory" selected>Ivory</option>
+              <option value="Black">Black</option>
+              <option value="Blush">Blush</option>
+              <option value="Red">Red</option>
+              <option value="Navy">Navy</option>
+            </select>
+          </div>
+
+          <div class="mbp-field">
+            <label class="mbp-label" for="mbpAddon">
+              <span>Add-on</span>
+            </label>
+            <label class="mbp-check">
+              <input type="checkbox" id="mbpAddon">
+              <span>Mini flowers (+Rp 7000)</span>
+            </label>
+          </div>
+
+          <div class="mbp-field mbp-wide">
+            <label class="mbp-label" for="mbpCard">Card message</label>
+            <textarea id="mbpCard" class="mbp-input mbp-textarea" rows="3" placeholder="Write a small message..."></textarea>
+          </div>
+
+          <div class="mbp-summary">
+            <div class="mbp-srow"><span>Base arrangement</span><span id="mbpBaseText">Rp 500.000</span></div>
+            <div class="mbp-srow"><span>Cash value</span><span id="mbpCashText">Rp 0</span></div>
+            <div class="mbp-srow"><span>Add-on</span><span id="mbpAddonText">Rp 0</span></div>
+            <div class="mbp-stotal"><span>Total estimate</span><span id="mbpTotalText">Rp 500.000</span></div>
+          </div>
+
+          <div class="mbp-actions">
+            <button type="button" class="mbp-btn mbp-btnPrimary" id="mbpOrder">
+              Order via WhatsApp
+            </button>
+            <button type="button" class="mbp-btn" id="mbpCopy">
+              Copy details
+            </button>
+          </div>
+
+          <div class="mbp-foot">
+            <span class="mbp-muted">Delivery date & address will be confirmed via WhatsApp.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
