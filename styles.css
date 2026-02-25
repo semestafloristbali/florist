@@ -7,10 +7,13 @@ section{ scroll-margin-top: 100px; }
 
 :root{
   --brand-brown: #8b7355;
+
+  /* Luxury (ganti Valentine) */
   --val-red:  #8b6914;
   --val-rose: #b8860b;
   --val-pink: #f5e6c8;
   --val-soft: #fdf8ef;
+
   --text: #1f1f24;
 }
 
@@ -19,6 +22,7 @@ body{
   font-family: 'Roboto', sans-serif;
   line-height: 1.6;
   color: var(--text);
+
   background:
     radial-gradient(900px 420px at 12% 10%, rgba(184,134,11,.10), transparent 60%),
     radial-gradient(900px 520px at 92% 22%, rgba(245,230,200,.45), transparent 58%),
@@ -37,11 +41,13 @@ header{
   top:0; left:0; right:0;
   width:100%;
   z-index: 100;
+
   background: rgba(253,251,247,.82);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(184,134,11,.08);
   box-shadow: 0 10px 35px rgba(0,0,0,.05);
+
   transition: transform .28s ease, opacity .28s ease;
   will-change: transform;
 }
@@ -106,6 +112,7 @@ nav ul li a:hover{ color: var(--brand-brown); }
   padding: 120px 0 80px;
   display:flex;
   align-items:center;
+
   background:
     radial-gradient(1200px 500px at 20% 10%, rgba(184,134,11,.10), transparent 60%),
     radial-gradient(900px 450px at 90% 30%, rgba(245,230,200,.30), transparent 55%),
@@ -161,49 +168,28 @@ nav ul li a:hover{ color: var(--brand-brown); }
 
 /* ========== BUTTONS ========== */
 .cta-button{
-  position: relative;
-  overflow: hidden;
   border: none;
   cursor: pointer;
   text-decoration:none;
   border-radius: 5px;
   font-weight:700;
   padding: 15px 30px;
-  background: linear-gradient(135deg, #2a2520, #1a1a2e);
+
+  background: linear-gradient(135deg, var(--val-rose), var(--val-red));
   color:#fff;
-  border: 1px solid rgba(184,134,11,.15);
-  box-shadow: 0 18px 48px rgba(26,26,46,.14);
+  border: 1px solid rgba(184,134,11,.18);
+  box-shadow: 0 18px 48px rgba(184,134,11,.14);
+
   transition: filter .2s, box-shadow .2s, transform .2s;
 }
 
 .cta-button:hover{
-  filter: brightness(1.08);
-  box-shadow: 0 22px 64px rgba(26,26,46,.20);
-}
-
-.cta-button::after{
-  content:"";
-  position:absolute;
-  inset:-40%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 55%);
-  transform: translateX(-30%) rotate(10deg);
-  opacity: 0;
-  transition: opacity .35s ease, transform .6s cubic-bezier(.2,.8,.2,1);
-}
-
-.cta-button:hover::after{
-  opacity: 1;
-  transform: translateX(18%) rotate(10deg);
+  filter: brightness(1.06);
+  box-shadow: 0 22px 64px rgba(184,134,11,.20);
 }
 
 .cta-valentine{
-  background: linear-gradient(135deg, #b8860b, #d4a843);
-  border: 1px solid rgba(184,134,11,.20);
-  box-shadow: 0 18px 48px rgba(184,134,11,.16);
-}
-
-.cta-valentine:hover{
-  box-shadow: 0 22px 64px rgba(184,134,11,.22);
+  /* sama dengan default, sudah gold */
 }
 
 .cta-ghost{
@@ -227,7 +213,7 @@ nav ul li a:hover{ color: var(--brand-brown); }
   font-family:'Playfair Display', serif;
   font-size: 2.5rem;
   margin-bottom: 50px;
-  color: #2a2520;
+  color: var(--brand-brown);
 }
 
 .collection-actions{
@@ -313,6 +299,7 @@ nav ul li a:hover{ color: var(--brand-brown); }
   margin-bottom: 20px;
 }
 
+/* Fallback image UI */
 .img-fallback-ui{
   display:none;
   place-items:center;
@@ -342,9 +329,9 @@ nav ul li a:hover{ color: var(--brand-brown); }
 .produk-item h3{
   font-family:'Playfair Display', serif;
   margin-bottom:10px;
-  color: #2a2520;
+  color: var(--brand-brown);
 }
-.produk-item p{ margin-bottom: 15px; color: #5a5550; }
+.produk-item p{ margin-bottom: 15px; }
 
 .harga{
   font-weight:700;
@@ -352,6 +339,7 @@ nav ul li a:hover{ color: var(--brand-brown); }
   font-size: 1.2rem;
 }
 
+/* Signature section subtitle */
 .produk-valentine .val-sub{
   text-align:center;
   max-width: 720px;
@@ -370,14 +358,13 @@ nav ul li a:hover{ color: var(--brand-brown); }
   font-family:'Playfair Display', serif;
   font-size: 2.5rem;
   margin-bottom:30px;
-  color: #2a2520;
+  color: var(--brand-brown);
 }
 
 .tentang p{
   max-width:800px;
   margin: 0 auto 30px;
   font-size: 1.1rem;
-  color: #5a5550;
 }
 
 .tentang img{
@@ -398,10 +385,10 @@ nav ul li a:hover{ color: var(--brand-brown); }
   font-family:'Playfair Display', serif;
   font-size: 2.5rem;
   margin-bottom: 30px;
-  color: #2a2520;
+  color: var(--brand-brown);
 }
 
-.kontak p{ text-align:center; margin-bottom: 40px; color: #5a5550; }
+.kontak p{ text-align:center; margin-bottom: 40px; }
 
 form{
   max-width:600px;
@@ -436,7 +423,43 @@ form button{ align-self:flex-start; }
 
 /* ========== FOOTER ========== */
 footer{
-  background: linear-gradient(135deg, #2a2520 0%, #1a1a2e 100%);
+  background: linear-gradient(135deg, var(--brand-brown) 0%, #2a2520 120%);
   color:#fff;
   padding: 20px 0;
-  text-align
+  text-align:center;
+}
+
+.social-links a{
+  color: #d4a843;
+  margin: 0 10px;
+  text-decoration:none;
+}
+.social-links a:hover{ text-decoration: underline; }
+
+/* ========== THANK YOU MODAL ========== */
+.ty-overlay{
+  position: fixed;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding: 24px;
+  background: rgba(10,10,12,.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition: opacity .28s ease, visibility .28s ease;
+  z-index: 9999;
+}
+
+.ty-overlay.is-open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+.ty-modal{
+  position: relative;
+  width: min(520px, 92vw);
+  border-radius
