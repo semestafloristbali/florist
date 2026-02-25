@@ -15,52 +15,50 @@
   <link rel="stylesheet" href="styles.css" />
 
   <!-- GOOGLE FONTS -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<!-- ========== HEADER ========== -->
 <header id="siteHeader">
   <div class="container header-inner">
     <h1 class="logo">
       <span class="logo-script">Semesta</span>
       <span class="logo-text">Florist Bali</span>
-      <span class="logo-mark">✦</span>
+      <span class="logo-mark">❤</span>
     </h1>
 
-    <!-- ROSE TOGGLE (mobile) -->
+    <!-- NAV TOGGLE -->
     <button class="nav-rose" id="navToggle" aria-label="Open menu" aria-expanded="false" type="button">
-      <span class="rose-bud" aria-hidden="true">✦</span>
-      <span class="rose-bloom" aria-hidden="true">✦</span>
-      <span class="rose-bloom" aria-hidden="true">✦</span>
-      <span class="rose-bloom" aria-hidden="true">✦</span>
+      <span class="rose-bud" aria-hidden="true">🌹</span>
+      <span class="rose-bloom" aria-hidden="true">🌹</span>
+      <span class="rose-bloom" aria-hidden="true">🌹</span>
+      <span class="rose-bloom" aria-hidden="true">🌹</span>
     </button>
 
     <nav class="nav" id="siteNav">
       <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#signature">Signature</a></li>
+        <li><a href="#home">Feeds</a></li>
+        <li><a href="#valentine">Signature</a></li>
         <li><a href="#moneybouquet">Money Bouquet</a></li>
-        <li><a href="#produk">Collections</a></li>
-        <li><a href="#tentang">About</a></li>
+        <li><a href="#produk">Our Product</a></li>
+        <li><a href="#tentang">About Us</a></li>
         <li><a href="#kontak">Contact</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
-<!-- ========== HERO ========== -->
 <section id="home" class="hero">
   <div class="container">
     <div class="hero-content">
-      <h2>Elevate Every Occasion with <em>Exquisite</em> Florals.</h2>
-      <p>Discover our curated collection of tropical flowers and luxurious bouquets — handcrafted to bloom your most meaningful moments.</p>
+      <h2>Elevate Every Occasion with Exquisite Florals.</h2>
+      <p>Find our collection of tropical flowers and luxurious bouquet to blooming your day!</p>
 
       <div class="hero-actions">
-        <a href="#signature" class="cta-button cta-primary">Explore Signature</a>
-        <a href="#kontak" class="cta-button cta-ghost">Get in Touch</a>
+        <a href="#valentine" class="cta-button cta-valentine">Signature Collection</a>
+        <a href="#kontak" class="cta-button cta-ghost">Contact Us</a>
       </div>
     </div>
 
@@ -70,21 +68,17 @@
   </div>
 </section>
 
-<!-- ========== SIGNATURE COLLECTION ========== -->
-<section id="signature" class="produk produk-signature">
+<section id="valentine" class="produk produk-valentine">
   <div class="container">
     <h2>Signature Collection</h2>
-    <span class="section-line"></span>
-    <p class="signature-sub">Our finest arrangements — curated with premium blooms, wrapped in elegance.</p>
-    <div class="produk-grid" id="signatureGrid"></div>
+    <p class="val-sub">Our finest arrangements — curated with premium blooms, wrapped in elegance.</p>
+    <div class="produk-grid" id="valentineGrid"></div>
   </div>
 </section>
 
-<!-- ========== MONEY BOUQUET ========== -->
 <section id="moneybouquet" class="moneybouquet">
   <div class="container">
     <h2>Money Bouquet</h2>
-    <span class="section-line"></span>
     <p class="mb-sub">Cash bouquet with luxury wrap — premium, playful, and photo-ready.</p>
 
     <div class="mb-card">
@@ -110,9 +104,9 @@
 
       <!-- Right: Info -->
       <div class="mb-info">
-        <div class="mb-badge">Signature · Premium</div>
-        <h3 class="mb-title">Money Bouquet</h3>
-        <p class="mb-desc">Luxury wrap + personalized card. Bring your own cash or let us prepare it for you.</p>
+        <div class="mb-badge">SIGNATURE • PREMIUM</div>
+        <div class="mb-title">Money Bouquet</div>
+        <p class="mb-desc">Luxury wrap + card. You can bring your own cash or let us prepare it.</p>
 
         <div class="mb-meta">
           <div class="mb-meta-row"><span>Starting from</span><strong>Rp 100.000</strong></div>
@@ -120,62 +114,54 @@
           <div class="mb-meta-row"><span>Custom</span><strong>Wrap & Card</strong></div>
         </div>
 
-        <button class="cta-button cta-primary mb-cta" id="mbOrderFill" type="button">Order Money Bouquet</button>
+        <button class="cta-button mb-cta" id="mbOrderFill" type="button">Order Money Bouquet</button>
 
-        <div class="mb-footnote">Tap the photo to preview. Final details confirmed via WhatsApp.</div>
+        <div class="mb-footnote">Tap the photo to preview (lightbox). Detail final via WhatsApp.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========== ALL COLLECTIONS ========== -->
 <section id="produk" class="produk">
   <div class="container">
-    <h2>Our Collections</h2>
-    <span class="section-line"></span>
+    <h2>Our Collection</h2>
 
     <div class="collection-actions">
-      <button class="pill-btn is-active" id="btnAll" type="button">All Arrangements</button>
-      <button class="pill-btn" id="btnSignature" type="button">Signature ✦</button>
+      <button class="pill-btn is-active" id="btnAll" type="button">Show All</button>
+      <button class="pill-btn" id="btnVal" type="button">Signature Collection ✦</button>
     </div>
 
     <div class="produk-grid" id="produkGrid"></div>
   </div>
 </section>
 
-<!-- ========== ABOUT ========== -->
 <section id="tentang" class="tentang">
   <div class="container">
     <h2>About Us</h2>
-    <span class="section-line"></span>
-    <p>Semesta Florist is dedicated to serving the highest quality fresh flowers, meticulously arranged and wrapped with love, care, and artistry.</p>
-    <p>Based in Bali, we bring the beauty of tropical blooms to every occasion — from intimate celebrations to grand gestures.</p>
-    <img src="semestaflorist-hero.jpeg" alt="Semesta Florist Bali" />
+    <p>Semesta Florist are serving high quality fresh flowers, wrapped with love and care.</p>
+    <img src="semestaflorist-hero.jpeg" alt="Semesta Florist Logo" />
   </div>
 </section>
 
-<!-- ========== CONTACT ========== -->
 <section id="kontak" class="kontak">
   <div class="container">
-    <h2>Get in Touch</h2>
-    <span class="section-line"></span>
-    <p>Ready to order? Send your details and our florist will craft something beautiful for you.</p>
+    <h2>Contact Us</h2>
+    <p>Ready to order? Send your orders to our Florists now!</p>
 
     <form id="whatsappForm">
       <input type="text" id="nama" placeholder="Your Name" required />
-      <textarea id="pesan" rows="5" placeholder="Your Order Details" required></textarea>
-      <button type="submit" class="cta-button cta-primary">Send via WhatsApp</button>
+      <textarea id="pesan" placeholder="Your Order" required></textarea>
+      <button type="submit" class="cta-button">Order Now!</button>
     </form>
 
     <div class="kontak-info">
-      <p>✦ Puri Gading, Jimbaran, Bali</p>
-      <p>✦ +62 857 2605 7805</p>
-      <p>✦ Semestafloristbali@gmail.com</p>
+      <p>Alamat: Puri Gading, Jimbaran, Bali</p>
+      <p>Telepon: +62 857 2605 7805</p>
+      <p>Email: Semestafloristbali@gmail.com</p>
     </div>
   </div>
 </section>
 
-<!-- ========== FOOTER ========== -->
 <footer>
   <div class="container">
     <p>&copy; 2025 Semesta Florist Bali. All rights reserved.</p>
@@ -186,7 +172,7 @@
   </div>
 </footer>
 
-<!-- ========== LIGHTBOX ========== -->
+<!-- LIGHTBOX HTML -->
 <div id="imgLightbox" class="img-overlay" aria-hidden="true">
   <div class="img-modal" role="dialog" aria-modal="true" aria-label="Image preview">
     <button type="button" class="img-close" id="imgClose" aria-label="Close">×</button>
@@ -196,16 +182,16 @@
   </div>
 </div>
 
-<!-- ========== THANK YOU MODAL ========== -->
+<!-- Thank You Modal -->
 <div id="thankyouModal" class="ty-overlay" aria-hidden="true">
   <div class="ty-modal" role="dialog" aria-modal="true" aria-labelledby="tyTitle">
     <button type="button" class="ty-close" id="tyClose" aria-label="Close">×</button>
-    <div class="ty-badge">Semesta Florist</div>
+    <div class="ty-badge ty-badge-val">Semesta Florist</div>
 
     <h3 id="tyTitle" class="ty-title">Your order is on its way ✦</h3>
     <p class="ty-subtitle">
       We've opened WhatsApp with your details.
-      Our florist will reply shortly to confirm your beautiful arrangement.
+      Our florist will reply shortly with a beautiful arrangement for you.
     </p>
 
     <div class="ty-actions">
@@ -214,7 +200,7 @@
   </div>
 </div>
 
-<!-- ========== MONEY BOUQUET PREMIUM MODAL ========== -->
+<!-- Premium Money Bouquet Modal -->
 <div id="mbPremium" class="mbp-overlay" aria-hidden="true">
   <div class="mbp-modal" role="dialog" aria-modal="true" aria-labelledby="mbpTitle">
     <button type="button" class="mbp-close" id="mbpClose" aria-label="Close">×</button>
@@ -237,18 +223,18 @@
           </button>
         </div>
 
-        <div class="mbp-gallery-note">Tap image to zoom.</div>
+        <div class="mbp-gallery-note">Tap image to zoom is handled by your lightbox.</div>
       </div>
 
       <div class="mbp-detail">
-        <div class="mbp-badge">Signature · Premium</div>
+        <div class="mbp-badge">SIGNATURE • PREMIUM</div>
         <h3 class="mbp-title" id="mbpTitle">Money Bouquet</h3>
         <p class="mbp-sub">Cash arrangement with luxury wrap + personalized card. <span class="mbp-muted">Cash value optional.</span></p>
 
         <div class="mbp-priceRow">
           <div>
             <div class="mbp-small">Starting from</div>
-            <div class="mbp-price" id="mbpStarting">Rp 100.000</div>
+            <div class="mbp-price" id="mbpStarting">Rp 100000</div>
           </div>
           <div class="mbp-chip">Handcrafted</div>
         </div>
@@ -268,8 +254,8 @@
 
           <div class="mbp-field">
             <label class="mbp-label" for="mbpCash">Cash value (optional)</label>
-            <input id="mbpCash" class="mbp-input" inputmode="numeric" placeholder="e.g. 1000000">
-            <div class="mbp-help">Fill if you want us to prepare the cash.</div>
+            <input id="mbpCash" class="mbp-input" inputmode="numeric" placeholder="contoh: 1000000">
+            <div class="mbp-help">Fill up, if you want Us to prepare your money bouquet!</div>
           </div>
 
           <div class="mbp-field">
@@ -284,11 +270,45 @@
           </div>
 
           <div class="mbp-field">
-            <label class="mbp-label"><span>Add-on</span></label>
+            <label class="mbp-label" for="mbpAddon"><span>Add-on</span></label>
             <label class="mbp-check">
               <input type="checkbox" id="mbpAddon">
-              <span>Mini flowers (+Rp 7.000)</span>
+              <span>Mini flowers (+Rp 7000)</span>
             </label>
           </div>
 
-          
+          <div class="mbp-field mbp-wide">
+            <label class="mbp-label" for="mbpCard">Card message</label>
+            <textarea id="mbpCard" class="mbp-input mbp-textarea" rows="3" placeholder="Write a small message..."></textarea>
+          </div>
+
+          <div class="mbp-summary">
+            <div class="mbp-srow"><span>Base arrangement</span><span id="mbpBaseText">Rp 500.000</span></div>
+            <div class="mbp-srow"><span>Cash value</span><span id="mbpCashText">Rp 0</span></div>
+            <div class="mbp-srow"><span>Add-on</span><span id="mbpAddonText">Rp 0</span></div>
+            <div class="mbp-stotal"><span>Total estimate</span><span id="mbpTotalText">Rp 500.000</span></div
+			
+			          </div>
+
+          <div class="mbp-actions">
+            <button type="button" class="mbp-btn mbp-btnPrimary" id="mbpOrder">Order via WhatsApp</button>
+            <button type="button" class="mbp-btn" id="mbpCopy">Copy details</button>
+          </div>
+
+          <div class="mbp-foot">
+            <span class="mbp-muted">Delivery date & address will be confirmed via WhatsApp.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Back to Top -->
+<button id="toTop" class="to-top to-top-rose" aria-label="Back to top">✦</button>
+
+<!-- PANGGIL SCRIPT -->
+<script src="script.js"></script>
+
+</body>
+</html>
