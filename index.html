@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AaGD5N0MmUHAL_S5AmKx-Ajzpxygia7ZF9GghVwSYdxpebCjjyPkU3_saMcSAROjZpiIftRbkectq9k2&currency=IDR"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Semesta Florist Bali</title>
@@ -298,6 +301,39 @@
   </div>
 </div>
 
+<!-- PayPal Payment Modal -->
+<div id="paypalModal" class="paypal-overlay" aria-hidden="true">
+  <div class="paypal-modal" role="dialog" aria-modal="true">
+    <button type="button" class="paypal-close" id="paypalClose" aria-label="Close">×</button>
+
+    <div class="paypal-header">
+      <h3>Complete Your Payment</h3>
+      <p>Review your order and pay securely with PayPal.</p>
+    </div>
+
+    <div class="paypal-summary">
+      <div class="paypal-row">
+        <span>Product</span>
+        <span id="paypalProduct">—</span>
+      </div>
+      <div class="paypal-row">
+        <span>Price</span>
+        <span id="paypalPrice">—</span>
+      </div>
+      <div class="paypal-total">
+        <span>Total</span>
+        <span id="paypalTotal">—</span>
+      </div>
+    </div>
+
+    <div id="paypal-button-container"></div>
+
+    <div class="paypal-footer">
+      Secured by PayPal. You can pay with credit card, debit card, or PayPal balance.
+    </div>
+  </div>
+</div>
+
 <button id="toTop" class="to-top to-top-rose" aria-label="Back to top">🌹</button>
 
 <script>
@@ -428,24 +464,40 @@ document.addEventListener("click", (e) => {
 });
 
 /* =========================
-   4) CLICK CARD => AUTOFILL
+   4) CLICK CARD => PILIH BAYAR
 ========================= */
 document.addEventListener("click", function (e) {
   if (e.target.closest(".produk-img")) return;
+
   const card = e.target.closest(".produk-item");
   if (!card) return;
+
   const namaProduk = card.dataset.produk;
   const hargaProduk = card.dataset.harga;
-  const pesanEl = document.getElementById("pesan");
-  if(pesanEl){
-    pesanEl.value =
-      `Product: ${namaProduk}\n` +
-      `Price: ${hargaProduk}\n\n` +
-      `Delivery date:\n` +
-      `Address:\n` +
-      `Notes:`;
+
+  // Tanya user mau bayar pakai apa
+  const pilih = confirm(
+    `${namaProduk}\n${hargaProduk}\n\n` +
+    `OK = Pay with PayPal\n` +
+    `Cancel = Order via WhatsApp`
+  );
+
+  if(pilih){
+    // Bayar PayPal
+    openPaypal(namaProduk, hargaProduk);
+  } else {
+    // Order via WhatsApp (seperti sebelumnya)
+    const pesanEl = document.getElementById("pesan");
+    if(pesanEl){
+      pesanEl.value =
+        `Product: ${namaProduk}\n` +
+        `Price: ${hargaProduk}\n\n` +
+        `Delivery date:\n` +
+        `Address:\n` +
+        `Notes:`;
+    }
+    document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
   }
-  document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
 });
 
 /* =========================
@@ -624,6 +676,109 @@ const io = new IntersectionObserver((entries)=>{
 
 revealEls.forEach(el => io.observe(el));
 document.querySelector("#home")?.classList.add("is-show");
+
+
+/* =========================
+   9) PAYPAL PAYMENT
+========================= */
+const paypalModal = document.getElementById("paypalModal");
+const paypalClose = document.getElementById("paypalClose");
+
+let currentOrder = { name: "", price: 0 };
+
+function openPaypal(productName, priceString){
+  if(!paypalModal) return;
+
+  // Parse harga: "Rp 180.000,-" => 180000
+  const numericPrice = parseInt(priceString.replace(/[^0-9]/g, "")) || 0;
+
+  currentOrder.name = productName;
+  currentOrder.price = numericPrice;
+
+  // Update summary
+  document.getElementById("paypalProduct").textContent = productName;
+  document.getElementById("paypalPrice").textContent = priceString;
+  document.getElementById("paypalTotal").textContent = priceString;
+
+  // Clear previous PayPal buttons
+  const container = document.getElementById("paypal-button-container");
+  container.innerHTML = "";
+
+  // Render PayPal buttons
+  paypal.Buttons({
+    style: {
+      layout: 'vertical',
+      color: 'gold',
+      shape: 'rect',
+      label: 'pay',
+      height: 45
+    },
+
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          description: currentOrder.name + " - Semesta Florist Bali",
+          amount: {
+            currency_code: "IDR",
+            value: currentOrder.price.toString()
+          }
+        }]
+      });
+    },
+
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        // Payment berhasil!
+        closePaypal();
+
+        // Kirim notifikasi ke WhatsApp
+        const phone = "6285726057805";
+        const message =
+          `✦ PAYMENT RECEIVED ✦\n\n` +
+          `Product: ${currentOrder.name}\n` +
+          `Amount: Rp ${currentOrder.price.toLocaleString("id-ID")}\n` +
+          `PayPal ID: ${details.id}\n` +
+          `Payer: ${details.payer.name.given_name} ${details.payer.name.surname}\n` +
+          `Email: ${details.payer.email_address}\n\n` +
+          `Please confirm my order. Thank you!`;
+
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, "_blank", "noopener,noreferrer");
+
+        // Tampilkan thank you modal
+        requestAnimationFrame(openThankyou);
+      });
+    },
+
+    onCancel: function(data) {
+      // User batal bayar — tidak perlu action
+      console.log("Payment cancelled");
+    },
+
+    onError: function(err) {
+      alert("Payment error. Please try again or contact us via WhatsApp.");
+      console.error("PayPal Error:", err);
+    }
+
+  }).render('#paypal-button-container');
+
+  // Buka modal
+  paypalModal.classList.add("is-open");
+  paypalModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closePaypal(){
+  if(!paypalModal) return;
+  paypalModal.classList.remove("is-open");
+  paypalModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+paypalClose?.addEventListener("click", closePaypal);
+paypalModal?.addEventListener("click", (e) => { if(e.target === paypalModal) closePaypal(); });
+window.addEventListener("keydown", (e) => { if(e.key === "Escape") closePaypal(); });
+
 </script>
 
 </body>

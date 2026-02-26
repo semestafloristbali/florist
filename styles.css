@@ -1278,3 +1278,113 @@ footer{
 .mb-meta-row:hover{ transform: translateX(4px); }
 .mb-cta{ width: 100%; justify-content:center; }
 .mb-footnote{ margin-top: 12px; font-size: 13px; opacity:.78; }
+/* ========== PAYPAL MODAL ========== */
+.paypal-overlay{
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(10,10,12,.60);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .4s cubic-bezier(.4,0,.2,1), visibility .4s cubic-bezier(.4,0,.2,1);
+  z-index: 13000;
+}
+
+.paypal-overlay.is-open{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.paypal-modal{
+  position: relative;
+  width: min(520px, 94vw);
+  border-radius: 22px;
+  background: rgba(255,255,255,.95);
+  border: 1px solid rgba(184,134,11,.12);
+  box-shadow: 0 30px 90px rgba(0,0,0,.25);
+  padding: 28px 24px 22px;
+  transform: translateY(14px) scale(.98);
+  opacity: 0;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .45s ease;
+}
+
+.paypal-overlay.is-open .paypal-modal{
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.paypal-close{
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.8);
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+
+.paypal-close:hover{ transform: scale(1.05); }
+
+.paypal-header{
+  margin-bottom: 20px;
+}
+
+.paypal-header h3{
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: #2a2520;
+  margin-bottom: 6px;
+}
+
+.paypal-header p{
+  font-size: 14px;
+  opacity: .75;
+}
+
+.paypal-summary{
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(250,248,244,.8);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.paypal-row{
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.paypal-total{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(0,0,0,.08);
+  font-weight: 800;
+  font-size: 16px;
+  color: #2a2520;
+}
+
+#paypal-button-container{
+  min-height: 50px;
+}
+
+.paypal-footer{
+  margin-top: 14px;
+  font-size: 12px;
+  opacity: .65;
+  text-align: center;
+}
