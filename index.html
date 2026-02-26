@@ -373,6 +373,7 @@ function renderCard(p){
     </div>
   `;
 }
+
 function mountGrid(el, list){
   if(!el) return;
   el.classList.add("is-fading");
@@ -381,8 +382,9 @@ function mountGrid(el, list){
     el.classList.remove("is-fading");
   }, 160);
 }
+
 mountGrid(gridAll, products);
-if (gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("signature")));
+if(gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("signature")));
 
 /* =========================
    2) FILTER BUTTONS
@@ -403,7 +405,7 @@ btnVal?.addEventListener("click", () => {
 });
 
 /* =========================
-   3) LIGHTBOX (SAFE)
+   3) LIGHTBOX
 ========================= */
 const imgLightbox = document.getElementById("imgLightbox");
 const imgPreview  = document.getElementById("imgPreview");
@@ -423,6 +425,7 @@ function lbRender(){
   imgPrev?.classList.toggle("is-hidden", !many);
   imgNext?.classList.toggle("is-hidden", !many);
 }
+
 function openGallery(images, startIndex = 0){
   if(!imgLightbox) return;
   LB_IMAGES = Array.isArray(images) && images.length ? images : [];
@@ -433,6 +436,7 @@ function openGallery(images, startIndex = 0){
   imgLightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 }
+
 function closeImage(){
   if(!imgLightbox) return;
   imgLightbox.classList.remove("is-open");
@@ -442,22 +446,24 @@ function closeImage(){
   LB_IMAGES = [];
   LB_INDEX = 0;
 }
+
 function openImage(src, alt){ openGallery([{ src, alt }], 0); }
 function lbNext(){ if(LB_IMAGES.length <= 1) return; LB_INDEX = (LB_INDEX + 1) % LB_IMAGES.length; lbRender(); }
 function lbPrev(){ if(LB_IMAGES.length <= 1) return; LB_INDEX = (LB_INDEX - 1 + LB_IMAGES.length) % LB_IMAGES.length; lbRender(); }
 
 imgClose?.addEventListener("click", closeImage);
-imgLightbox?.addEventListener("click", (e) => { if (e.target === imgLightbox) closeImage(); });
-imgNext?.addEventListener("click", (e)=>{ e.stopPropagation(); lbNext(); });
-imgPrev?.addEventListener("click", (e)=>{ e.stopPropagation(); lbPrev(); });
+imgLightbox?.addEventListener("click", (e) => { if(e.target === imgLightbox) closeImage(); });
+imgNext?.addEventListener("click", (e) => { e.stopPropagation(); lbNext(); });
+imgPrev?.addEventListener("click", (e) => { e.stopPropagation(); lbPrev(); });
 
 window.addEventListener("keydown", (e) => {
-  if (!imgLightbox || !imgLightbox.classList.contains("is-open")) return;
-  if (e.key === "Escape") closeImage();
-  if (e.key === "ArrowRight") lbNext();
-  if (e.key === "ArrowLeft") lbPrev();
+  if(!imgLightbox || !imgLightbox.classList.contains("is-open")) return;
+  if(e.key === "Escape") closeImage();
+  if(e.key === "ArrowRight") lbNext();
+  if(e.key === "ArrowLeft") lbPrev();
 });
 
+// Klik gambar produk => lightbox
 document.addEventListener("click", (e) => {
   const img = e.target.closest(".produk-img");
   if(!img) return;
@@ -465,43 +471,52 @@ document.addEventListener("click", (e) => {
 });
 
 /* =========================
-   4) CLICK CARD => PILIH BAYAR
+   4) CLICK CARD => ORDER
 ========================= */
-document.addEventListener("click", function (e) {
-  if (e.target.closest(".produk-img")) return;
+document.addEventListener("click", function(e){
+  // Kalau klik gambar, jangan proses order (biar lightbox yang handle)
+  if(e.target.closest(".produk-img")) return;
 
   const card = e.target.closest(".produk-item");
-  if (!card) return;
+  if(!card) return;
 
   const namaProduk = card.dataset.produk;
   const hargaProduk = card.dataset.harga;
 
-  // Parse harga untuk tampilkan USD
-  const numericPrice = parseInt(hargaProduk.replace(/[^0-9]/g, "")) || 0;
-  const priceUSD = (numericPrice / KURS_USD).toFixed(2);
+  // Cek apakah PayPal tersedia
+  const paypalAvailable = typeof paypal !== "undefined" && document.getElementById("paypalModal");
 
-  const pilih = confirm(
-    `${namaProduk}\n` +
-    `${hargaProduk} (≈ $${priceUSD} USD)\n\n` +
-    `OK = Pay with PayPal ($${priceUSD})\n` +
-    `Cancel = Order via WhatsApp`
-  );
+  if(paypalAvailable){
+    // Parse harga untuk tampilkan USD
+    const numericPrice = parseInt(hargaProduk.replace(/[^0-9]/g, "")) || 0;
+    const priceUSD = (numericPrice / KURS_USD).toFixed(2);
 
-  if(pilih){
-    openPaypal(namaProduk, hargaProduk);
-  } else {
-    const pesanEl = document.getElementById("pesan");
-    if(pesanEl){
-      pesanEl.value =
-        `Product: ${namaProduk}\n` +
-        `Price: ${hargaProduk}\n\n` +
-        `Delivery date:\n` +
-        `Address:\n` +
-        `Notes:`;
+    const pilih = confirm(
+      `${namaProduk}\n` +
+      `${hargaProduk} (≈ $${priceUSD} USD)\n\n` +
+      `OK = Pay with PayPal ($${priceUSD})\n` +
+      `Cancel = Order via WhatsApp`
+    );
+
+    if(pilih){
+      openPaypal(namaProduk, hargaProduk);
+      return;
     }
-    document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
   }
+
+  // Order via WhatsApp (default)
+  const pesanEl = document.getElementById("pesan");
+  if(pesanEl){
+    pesanEl.value =
+      `Product: ${namaProduk}\n` +
+      `Price: ${hargaProduk}\n\n` +
+      `Delivery date:\n` +
+      `Address:\n` +
+      `Notes:`;
+  }
+  document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
 });
+
 /* =========================
    5) WHATSAPP + THANK YOU
 ========================= */
@@ -516,28 +531,32 @@ function openThankyou(){
   thankyouModal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 }
+
 function closeThankyou(){
   if(!thankyouModal) return;
   thankyouModal.classList.remove("is-open");
   thankyouModal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
 }
+
 closeBtn?.addEventListener("click", closeThankyou);
 okBtn?.addEventListener("click", closeThankyou);
-thankyouModal?.addEventListener("click", (ev) => { if (ev.target === thankyouModal) closeThankyou(); });
-window.addEventListener("keydown", (ev) => { if (ev.key === "Escape") closeThankyou(); });
+thankyouModal?.addEventListener("click", (ev) => { if(ev.target === thankyouModal) closeThankyou(); });
+window.addEventListener("keydown", (ev) => { if(ev.key === "Escape") closeThankyou(); });
 
-form?.addEventListener("submit", function (ev) {
+form?.addEventListener("submit", function(ev){
   ev.preventDefault();
   const phone = "6285726057805";
   const nama = document.getElementById("nama")?.value.trim() || "";
   const pesan = document.getElementById("pesan")?.value.trim() || "";
+
   const message =
     `Hello Semesta Florist\n\n` +
     `My name is ${nama}.\n` +
     `I would like to place an order with the following details:\n\n` +
     `${pesan}\n\n` +
     `Thank you.`;
+
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank", "noopener,noreferrer");
   requestAnimationFrame(openThankyou);
@@ -557,20 +576,22 @@ navToggle?.addEventListener("click", () => {
   navToggle.classList.toggle("is-open-rose", open);
   navToggle.setAttribute("aria-expanded", open ? "true" : "false");
 });
+
 document.addEventListener("click", e => {
   if(e.target.closest("#navToggle") || e.target.closest("#siteNav")) return;
   nav.classList.remove("is-open");
   navToggle?.classList.remove("is-open-rose");
   navToggle?.setAttribute("aria-expanded", "false");
 });
-toTop?.addEventListener("click", () => window.scrollTo({ top:0, behavior:"smooth" }));
+
+toTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
 let lastY = window.scrollY;
 window.addEventListener("scroll", () => {
   const y = window.scrollY;
-  if (y > 500) toTop?.classList.add("is-show");
+  if(y > 500) toTop?.classList.add("is-show");
   else toTop?.classList.remove("is-show");
-  if (y > lastY && y > 80) header?.classList.add("is-hidden");
+  if(y > lastY && y > 80) header?.classList.add("is-hidden");
   else header?.classList.remove("is-hidden");
   lastY = y;
 });
@@ -605,15 +626,15 @@ window.addEventListener("scroll", () => {
   }
 
   dotsWrap.innerHTML = slides
-    .map((_,i)=>`<button class="mb-dot ${i===0?'is-active':''}" type="button" aria-label="Go to slide ${i+1}"></button>`)
+    .map((_, i) => `<button class="mb-dot ${i===0?'is-active':''}" type="button" aria-label="Go to slide ${i+1}"></button>`)
     .join("");
 
-  dotsWrap.querySelectorAll(".mb-dot").forEach((dot,i)=>{
-    dot.addEventListener("click", ()=>{ setActive(i); restart(); });
+  dotsWrap.querySelectorAll(".mb-dot").forEach((dot, i) => {
+    dot.addEventListener("click", () => { setActive(i); restart(); });
   });
 
-  prevBtn?.addEventListener("click", ()=>{ setActive(idx-1); restart(); });
-  nextBtn?.addEventListener("click", ()=>{ setActive(idx+1); restart(); });
+  prevBtn?.addEventListener("click", () => { setActive(idx-1); restart(); });
+  nextBtn?.addEventListener("click", () => { setActive(idx+1); restart(); });
 
   slides.forEach((btn, i) => {
     btn.addEventListener("click", () => {
@@ -628,7 +649,7 @@ window.addEventListener("scroll", () => {
   function start(){
     if(!AUTOPLAY) return;
     stop();
-    timer = setInterval(()=> setActive(idx+1), INTERVAL);
+    timer = setInterval(() => setActive(idx+1), INTERVAL);
   }
   function stop(){
     if(timer) clearInterval(timer);
@@ -644,7 +665,7 @@ window.addEventListener("scroll", () => {
   setActive(0);
   start();
 
-  orderFillBtn?.addEventListener("click", ()=>{
+  orderFillBtn?.addEventListener("click", () => {
     const pesanField = document.getElementById("pesan");
     if(pesanField){
       pesanField.value =
@@ -667,54 +688,17 @@ window.addEventListener("scroll", () => {
 const revealEls = document.querySelectorAll("section, .produk-item, .mb-card, .tentang img");
 revealEls.forEach(el => el.classList.add("reveal"));
 
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
     if(entry.isIntersecting){
       entry.target.classList.add("is-show");
       io.unobserve(entry.target);
     }
   });
-},{ threshold: 0.12 });
+}, { threshold: 0.12 });
 
 revealEls.forEach(el => io.observe(el));
 document.querySelector("#home")?.classList.add("is-show");
-
-
-/* =========================
-   9) PAYPAL PAYMENT
-========================= */
-const paypalModal = document.getElementById("paypalModal");
-const paypalClose = document.getElementById("paypalClose");
-
-let currentOrder = { name: "", price: 0 };
-
-function openPaypal(productName, priceString){
-  if(!paypalModal) return;
-
-  // Parse harga: "Rp 180.000,-" => 180000
-  const numericPrice = parseInt(priceString.replace(/[^0-9]/g, "")) || 0;
-
-  currentOrder.name = productName;
-  currentOrder.price = numericPrice;
-
-  // Update summary
-  document.getElementById("paypalProduct").textContent = productName;
-  document.getElementById("paypalPrice").textContent = priceString;
-  document.getElementById("paypalTotal").textContent = priceString;
-
-  // Clear previous PayPal buttons
-  const container = document.getElementById("paypal-button-container");
-  container.innerHTML = "";
-
-  // Render PayPal buttons
-  paypal.Buttons({
-    style: {
-      layout: 'vertical',
-      color: 'gold',
-      shape: 'rect',
-      label: 'pay',
-      height: 45
-    },
 
 /* =========================
    9) PAYPAL PAYMENT + LIVE KURS
@@ -723,10 +707,9 @@ const paypalModal = document.getElementById("paypalModal");
 const paypalClose = document.getElementById("paypalClose");
 
 let currentOrder = { name: "", price: 0, priceUSD: 0 };
-let KURS_USD = 16000; // fallback default kalau API gagal
+let KURS_USD = 16000;
 let kursLoaded = false;
 
-// ✅ Auto fetch kurs USD → IDR saat halaman dibuka
 async function fetchKurs(){
   const apis = [
     "https://open.er-api.com/v6/latest/USD",
@@ -738,33 +721,27 @@ async function fetchKurs(){
     try {
       const res = await fetch(apis[i]);
       const data = await res.json();
-
       let rate = null;
 
-      // API 1 & 2 format
       if(data.rates && data.rates.IDR){
         rate = data.rates.IDR;
-      }
-      // API 3 format (fawazahmed0)
-      else if(data.usd && data.usd.idr){
+      } else if(data.usd && data.usd.idr){
         rate = data.usd.idr;
       }
 
       if(rate && rate > 0){
         KURS_USD = rate;
         kursLoaded = true;
-        console.log(`✅ Kurs loaded from API ${i+1}: 1 USD = Rp ${Math.round(KURS_USD).toLocaleString("id-ID")}`);
-        return; // berhasil, stop
+        console.log("✅ Live kurs loaded: 1 USD = Rp " + Math.round(KURS_USD).toLocaleString("id-ID"));
+        return;
       }
     } catch(err){
-      console.warn(`⚠️ API ${i+1} failed:`, err.message);
+      console.warn("⚠️ API " + (i+1) + " failed:", err.message);
     }
   }
-
   console.warn("⚠️ All kurs APIs failed. Using fallback: Rp " + KURS_USD);
 }
 
-// Fetch kurs saat halaman load
 fetchKurs();
 
 function formatRupiah(num){
@@ -778,11 +755,9 @@ function formatUSD(num){
 function openPaypal(productName, priceString){
   if(!paypalModal) return;
 
-  // Parse harga: "Rp 180.000,-" => 180000
   const numericPrice = parseInt(priceString.replace(/[^0-9]/g, "")) || 0;
   const priceUSD = parseFloat((numericPrice / KURS_USD).toFixed(2));
 
-  // Minimal $1 untuk PayPal
   if(priceUSD < 1){
     alert("Minimum payment is $1.00 USD.\nPlease order via WhatsApp instead.");
     return;
@@ -792,25 +767,21 @@ function openPaypal(productName, priceString){
   currentOrder.price = numericPrice;
   currentOrder.priceUSD = priceUSD;
 
-  // Update summary
   document.getElementById("paypalProduct").textContent = productName;
   document.getElementById("paypalPrice").textContent = formatRupiah(numericPrice);
   document.getElementById("paypalTotal").textContent = 
     formatRupiah(numericPrice) + "  ≈  " + formatUSD(priceUSD);
 
-  // Tampilkan info kurs
   const kursInfo = document.getElementById("paypalKursInfo");
   if(kursInfo){
     kursInfo.textContent = kursLoaded 
-      ? `Live rate: 1 USD = Rp ${Math.round(KURS_USD).toLocaleString("id-ID")}`
-      : `Estimated rate: 1 USD = Rp ${Math.round(KURS_USD).toLocaleString("id-ID")}`;
+      ? "Live rate: 1 USD = Rp " + Math.round(KURS_USD).toLocaleString("id-ID")
+      : "Estimated rate: 1 USD = Rp " + Math.round(KURS_USD).toLocaleString("id-ID");
   }
 
-  // Clear previous PayPal buttons
   const container = document.getElementById("paypal-button-container");
   container.innerHTML = "";
 
-  // Render PayPal buttons
   paypal.Buttons({
     style: {
       layout: 'vertical',
@@ -820,7 +791,7 @@ function openPaypal(productName, priceString){
       height: 45
     },
 
-    createOrder: function(data, actions) {
+    createOrder: function(data, actions){
       return actions.order.create({
         purchase_units: [{
           description: currentOrder.name + " - Semesta Florist Bali",
@@ -832,35 +803,35 @@ function openPaypal(productName, priceString){
       });
     },
 
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
+    onApprove: function(data, actions){
+      return actions.order.capture().then(function(details){
         closePaypal();
 
         const phone = "6285726057805";
         const message =
-          `✦ PAYMENT RECEIVED ✦\n\n` +
-          `Product: ${currentOrder.name}\n` +
-          `Amount: ${formatRupiah(currentOrder.price)} (${formatUSD(currentOrder.priceUSD)})\n` +
-          `Rate: 1 USD = Rp ${Math.round(KURS_USD).toLocaleString("id-ID")}\n` +
-          `PayPal ID: ${details.id}\n` +
-          `Payer: ${details.payer.name.given_name} ${details.payer.name.surname}\n` +
-          `Email: ${details.payer.email_address}\n\n` +
-          `Delivery date:\n` +
-          `Address:\n\n` +
-          `Please confirm my order. Thank you!`;
+          "✦ PAYMENT RECEIVED ✦\n\n" +
+          "Product: " + currentOrder.name + "\n" +
+          "Amount: " + formatRupiah(currentOrder.price) + " (" + formatUSD(currentOrder.priceUSD) + ")\n" +
+          "Rate: 1 USD = Rp " + Math.round(KURS_USD).toLocaleString("id-ID") + "\n" +
+          "PayPal ID: " + details.id + "\n" +
+          "Payer: " + details.payer.name.given_name + " " + details.payer.name.surname + "\n" +
+          "Email: " + details.payer.email_address + "\n\n" +
+          "Delivery date:\n" +
+          "Address:\n\n" +
+          "Please confirm my order. Thank you!";
 
-        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
         window.open(url, "_blank", "noopener,noreferrer");
 
         requestAnimationFrame(openThankyou);
       });
     },
 
-    onCancel: function(data) {
+    onCancel: function(data){
       console.log("Payment cancelled by user");
     },
 
-    onError: function(err) {
+    onError: function(err){
       alert("Payment failed. Please try again or order via WhatsApp.");
       console.error("PayPal Error:", err);
     }
