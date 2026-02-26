@@ -683,11 +683,10 @@ window.addEventListener("scroll", () => {
 })();
 
 /* =========================
-   8) REVEAL ON SCROLL
+   8) REVEAL ON SCROLL (FIXED)
 ========================= */
-const revealEls = document.querySelectorAll("section, .produk-item, .mb-card, .tentang img");
-revealEls.forEach(el => el.classList.add("reveal"));
 
+// Observer yang bisa dipakai ulang
 const io = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if(entry.isIntersecting){
@@ -697,9 +696,36 @@ const io = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12 });
 
-revealEls.forEach(el => io.observe(el));
+// Hanya reveal section & elemen yang SUDAH ADA di HTML (bukan yang di-render JS)
+const staticEls = document.querySelectorAll("section, .mb-card, .tentang img");
+staticEls.forEach(el => {
+  el.classList.add("reveal");
+  io.observe(el);
+});
+
+// Hero langsung tampil
 document.querySelector("#home")?.classList.add("is-show");
 
+// ✅ Override mountGrid agar produk baru juga dapat reveal
+const _originalMount = mountGrid;
+mountGrid = function(el, list){
+  if(!el) return;
+  el.classList.add("is-fading");
+  setTimeout(() => {
+    el.innerHTML = list.map(renderCard).join("");
+    el.classList.remove("is-fading");
+
+    // Setelah render, tambahkan reveal ke setiap produk-item baru
+    el.querySelectorAll(".produk-item").forEach(item => {
+      item.classList.add("reveal");
+      io.observe(item);
+    });
+  }, 160);
+};
+
+// Re-render ulang dengan mountGrid yang sudah di-fix
+mountGrid(gridAll, products);
+if(gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("signature")));
 /* =========================
    9) PAYPAL PAYMENT + LIVE KURS
 ========================= */
