@@ -26,7 +26,7 @@
     <h1 class="logo">
       <span class="logo-script">Semesta</span>
       <span class="logo-text">Florist Bali</span>
-      <span class="logo-mark">❤</span>
+      <span class="logo-mark">✦</span>
     </h1>
 
     <!-- ROSE TOGGLE -->
@@ -40,7 +40,7 @@
     <nav class="nav" id="siteNav">
       <ul>
         <li><a href="#home">Feeds</a></li>
-        <li><a href="#valentine">Valentine</a></li>
+        <li><a href="#valentine">Signature</a></li>
         <li><a href="#moneybouquet">Money Bouquet</a></li>
         <li><a href="#produk">Our Product</a></li>
         <li><a href="#tentang">About Us</a></li>
@@ -57,7 +57,7 @@
       <p>Find our collection of tropical flowers and luxurious bouquet to blooming your day!</p>
 
       <div class="hero-actions">
-        <a href="#valentine" class="cta-button cta-valentine">Valentine Collection</a>
+        <a href="#valentine" class="cta-button cta-valentine">Signature Collection</a>
         <a href="#kontak" class="cta-button cta-ghost">Contact Us</a>
       </div>
     </div>
@@ -70,20 +70,18 @@
 
 <section id="valentine" class="produk produk-valentine">
   <div class="container">
-    <h2>Valentine Collection</h2>
-    <p class="val-sub">Rose-forward arrangements, wrapped for romance — soft, luxurious, and timeless.</p>
+    <h2>Signature Collection</h2>
+    <p class="val-sub">Our finest arrangements — curated with premium blooms, wrapped in elegance.</p>
     <div class="produk-grid" id="valentineGrid"></div>
   </div>
 </section>
 
-<!-- ✅ MONEY BOUQUET SECTION (lengkap + sesuai CSS & JS kamu) -->
 <section id="moneybouquet" class="moneybouquet">
   <div class="container">
     <h2>Money Bouquet</h2>
     <p class="mb-sub">Cash bouquet with luxury wrap — premium, playful, and photo-ready.</p>
 
     <div class="mb-card">
-      <!-- Left: Carousel -->
       <div class="mb-carousel" id="mbCarousel">
         <div class="mb-slides" id="mbSlides">
           <button class="mb-slide is-active" type="button" aria-label="Slide 1">
@@ -103,7 +101,6 @@
         <div class="mb-dots" id="mbDots" aria-label="Slideshow dots"></div>
       </div>
 
-      <!-- Right: Info -->
       <div class="mb-info">
         <div class="mb-badge">SIGNATURE • PREMIUM</div>
         <div class="mb-title">Money Bouquet</div>
@@ -129,7 +126,7 @@
 
     <div class="collection-actions">
       <button class="pill-btn is-active" id="btnAll" type="button">Show All</button>
-      <button class="pill-btn" id="btnVal" type="button">Valentine Collection ❤</button>
+      <button class="pill-btn" id="btnVal" type="button">Signature Collection ✦</button>
     </div>
 
     <div class="produk-grid" id="produkGrid"></div>
@@ -173,7 +170,6 @@
   </div>
 </footer>
 
-<!-- ✅ LIGHTBOX HTML (biar JS lightbox kamu tidak null) -->
 <div id="imgLightbox" class="img-overlay" aria-hidden="true">
   <div class="img-modal" role="dialog" aria-modal="true" aria-label="Image preview">
     <button type="button" class="img-close" id="imgClose" aria-label="Close">×</button>
@@ -183,16 +179,15 @@
   </div>
 </div>
 
-<!-- Luxury Thank You Modal -->
 <div id="thankyouModal" class="ty-overlay" aria-hidden="true">
   <div class="ty-modal" role="dialog" aria-modal="true" aria-labelledby="tyTitle">
     <button type="button" class="ty-close" id="tyClose" aria-label="Close">×</button>
-    <div class="ty-badge ty-badge-val">Valentine Edition</div>
+    <div class="ty-badge ty-badge-val">Semesta Florist</div>
 
-    <h3 id="tyTitle" class="ty-title">Your Valentine order is on its way ❤</h3>
+    <h3 id="tyTitle" class="ty-title">Your order is on its way ✦</h3>
     <p class="ty-subtitle">
-      We’ve opened WhatsApp with your details.
-      Our florist will reply shortly with a beautiful rose arrangement.
+      We've opened WhatsApp with your details.
+      Our florist will reply shortly with a beautiful arrangement.
     </p>
 
     <div class="ty-actions">
@@ -201,7 +196,6 @@
   </div>
 </div>
 
-<!-- Premium Money Bouquet Modal (tetap kamu punya) -->
 <div id="mbPremium" class="mbp-overlay" aria-hidden="true">
   <div class="mbp-modal" role="dialog" aria-modal="true" aria-labelledby="mbpTitle">
     <button type="button" class="mbp-close" id="mbpClose" aria-label="Close">×</button>
@@ -287,7 +281,7 @@
             <div class="mbp-srow"><span>Base arrangement</span><span id="mbpBaseText">Rp 500.000</span></div>
             <div class="mbp-srow"><span>Cash value</span><span id="mbpCashText">Rp 0</span></div>
             <div class="mbp-srow"><span>Add-on</span><span id="mbpAddonText">Rp 0</span></div>
-            <div class="mbp-stotal"><span>Total estimate</span><span id="mbpTotalText">Rp 500.000</span></div>
+			            <div class="mbp-stotal"><span>Total estimate</span><span id="mbpTotalText">Rp 500.000</span></div>
           </div>
 
           <div class="mbp-actions">
@@ -317,8 +311,8 @@ const products = [
   { name:"Basket of Gerbera's", price:"Rp 150.000,-", image:"bucketofgerbera-hero.jpeg", desc:"17 Gerbera's with additional flowers and leaves.", tag:["classic"] },
   { name:"Medium Bouquet", price:"Rp 200.000,-", image:"mediumbouquet-hero.jpeg", desc:"Special request by Customers.", tag:["classic"] },
   { name:"Medium Flower Basket", price:"Rp 190.000,-", image:"flowerbucket-hero.jpeg", desc:"Medium sized contains 27 main flowers, and additional flowers and leaves.", tag:["classic"] },
-  { name:"Teddy Bear with Chocolate", price:"Rp 85.000,-", image:"teddysilverqueen-hero.jpeg", desc:"Teddy Bear & Silverqueen Bouquet with Rose.", tag:["valentine"] },
-  { name:"Bunny Bouquet with Pocky", price:"Rp 80.000,-", image:"bouquetkelinci-hero.jpeg", desc:"Small Bunny with 2 Pocky.", tag:["valentine"] },
+  { name:"Teddy Bear with Chocolate", price:"Rp 85.000,-", image:"teddysilverqueen-hero.jpeg", desc:"Teddy Bear & Silverqueen Bouquet with Rose.", tag:["signature"] },
+  { name:"Bunny Bouquet with Pocky", price:"Rp 80.000,-", image:"bouquetkelinci-hero.jpeg", desc:"Small Bunny with 2 Pocky.", tag:["signature"] },
   { name:"Flower Board", price:"Start from Rp 250.000,-", image:"papanbunga-hero.jpeg", desc:"Order by request, depends on size and flowers placing.", tag:["classic"] },
 ];
 
@@ -351,10 +345,28 @@ function mountGrid(el, list){
   }, 160);
 }
 mountGrid(gridAll, products);
-if (gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("valentine")));
+if (gridVal) mountGrid(gridVal, products.filter(p => p.tag?.includes("signature")));
 
 /* =========================
-   2) LIGHTBOX (SAFE)
+   2) FILTER BUTTONS
+========================= */
+const btnAll = document.getElementById("btnAll");
+const btnVal = document.getElementById("btnVal");
+
+btnAll?.addEventListener("click", () => {
+  btnAll.classList.add("is-active");
+  btnVal?.classList.remove("is-active");
+  mountGrid(gridAll, products);
+});
+
+btnVal?.addEventListener("click", () => {
+  btnVal.classList.add("is-active");
+  btnAll?.classList.remove("is-active");
+  mountGrid(gridAll, products.filter(p => p.tag?.includes("signature")));
+});
+
+/* =========================
+   3) LIGHTBOX (SAFE)
 ========================= */
 const imgLightbox = document.getElementById("imgLightbox");
 const imgPreview  = document.getElementById("imgPreview");
@@ -368,10 +380,8 @@ let LB_INDEX = 0;
 function lbRender(){
   const item = LB_IMAGES[LB_INDEX];
   if(!item || !imgPreview) return;
-
   imgPreview.src = item.src;
   imgPreview.alt = item.alt || "Preview";
-
   const many = LB_IMAGES.length > 1;
   imgPrev?.classList.toggle("is-hidden", !many);
   imgNext?.classList.toggle("is-hidden", !many);
@@ -381,7 +391,6 @@ function openGallery(images, startIndex = 0){
   LB_IMAGES = Array.isArray(images) && images.length ? images : [];
   LB_INDEX = Math.max(0, Math.min(startIndex, LB_IMAGES.length - 1));
   if(!LB_IMAGES.length) return;
-
   lbRender();
   imgLightbox.classList.add("is-open");
   imgLightbox.setAttribute("aria-hidden", "false");
@@ -412,7 +421,6 @@ window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbPrev();
 });
 
-/* ✅ klik gambar produk => openImage */
 document.addEventListener("click", (e) => {
   const img = e.target.closest(".produk-img");
   if(!img) return;
@@ -420,17 +428,14 @@ document.addEventListener("click", (e) => {
 });
 
 /* =========================
-   3) CLICK CARD => AUTOFILL
+   4) CLICK CARD => AUTOFILL
 ========================= */
 document.addEventListener("click", function (e) {
   if (e.target.closest(".produk-img")) return;
-
   const card = e.target.closest(".produk-item");
   if (!card) return;
-
   const namaProduk = card.dataset.produk;
   const hargaProduk = card.dataset.harga;
-
   const pesanEl = document.getElementById("pesan");
   if(pesanEl){
     pesanEl.value =
@@ -440,12 +445,11 @@ document.addEventListener("click", function (e) {
       `Address:\n` +
       `Notes:`;
   }
-
   document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
 });
 
 /* =========================
-   4) WHATSAPP + THANK YOU
+   5) WHATSAPP + THANK YOU
 ========================= */
 const form = document.getElementById("whatsappForm");
 const thankyouModal = document.getElementById("thankyouModal");
@@ -471,27 +475,23 @@ window.addEventListener("keydown", (ev) => { if (ev.key === "Escape") closeThank
 
 form?.addEventListener("submit", function (ev) {
   ev.preventDefault();
-
   const phone = "6285726057805";
   const nama = document.getElementById("nama")?.value.trim() || "";
   const pesan = document.getElementById("pesan")?.value.trim() || "";
-
   const message =
     `Hello Semesta Florist\n\n` +
     `My name is ${nama}.\n` +
     `I would like to place an order with the following details:\n\n` +
     `${pesan}\n\n` +
     `Thank you.`;
-
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank", "noopener,noreferrer");
-
   requestAnimationFrame(openThankyou);
   form.reset();
 });
 
 /* =========================
-   5) HEADER + NAV + TOP
+   6) HEADER + NAV + TOP
 ========================= */
 const header = document.getElementById("siteHeader");
 const nav = document.getElementById("siteNav");
@@ -514,18 +514,15 @@ toTop?.addEventListener("click", () => window.scrollTo({ top:0, behavior:"smooth
 let lastY = window.scrollY;
 window.addEventListener("scroll", () => {
   const y = window.scrollY;
-
   if (y > 500) toTop?.classList.add("is-show");
   else toTop?.classList.remove("is-show");
-
   if (y > lastY && y > 80) header?.classList.add("is-hidden");
   else header?.classList.remove("is-hidden");
-
   lastY = y;
 });
 
 /* =========================
-   6) MONEY BOUQUET SLIDESHOW
+   7) MONEY BOUQUET SLIDESHOW
 ========================= */
 (function(){
   const carousel = document.getElementById("mbCarousel");
@@ -611,7 +608,7 @@ window.addEventListener("scroll", () => {
 })();
 
 /* =========================
-   7) REVEAL ON SCROLL (rapih)
+   8) REVEAL ON SCROLL
 ========================= */
 const revealEls = document.querySelectorAll("section, .produk-item, .mb-card, .tentang img");
 revealEls.forEach(el => el.classList.add("reveal"));
