@@ -1388,3 +1388,10 @@ footer{
   opacity: .65;
   text-align: center;
 }
+#paypalKursInfo{
+  display: inline-block;
+  font-size: 11px;
+  opacity: .6;
+  margin-bottom: 4px;
+  letter-spacing: .02em;
+}

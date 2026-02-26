@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=AaGD5N0MmUHAL_S5AmKx-Ajzpxygia7ZF9GghVwSYdxpebCjjyPkU3_saMcSAROjZpiIftRbkectq9k2&currency=IDR"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AaGD5N0MmUHAL_S5AmKx-Ajzpxygia7ZF9GghVwSYdxpebCjjyPkU3_saMcSAROjZpiIftRbkectq9k2&currency=USD"></script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -317,11 +317,11 @@
         <span id="paypalProduct">—</span>
       </div>
       <div class="paypal-row">
-        <span>Price</span>
+        <span>Price (IDR)</span>
         <span id="paypalPrice">—</span>
       </div>
       <div class="paypal-total">
-        <span>Total</span>
+        <span>Total (USD)</span>
         <span id="paypalTotal">—</span>
       </div>
     </div>
@@ -329,7 +329,8 @@
     <div id="paypal-button-container"></div>
 
     <div class="paypal-footer">
-      Secured by PayPal. You can pay with credit card, debit card, or PayPal balance.
+      <span id="paypalKursInfo"></span><br>
+      Secured by PayPal. Pay with credit card, debit card, or PayPal balance.
     </div>
   </div>
 </div>
@@ -475,18 +476,20 @@ document.addEventListener("click", function (e) {
   const namaProduk = card.dataset.produk;
   const hargaProduk = card.dataset.harga;
 
-  // Tanya user mau bayar pakai apa
+  // Parse harga untuk tampilkan USD
+  const numericPrice = parseInt(hargaProduk.replace(/[^0-9]/g, "")) || 0;
+  const priceUSD = (numericPrice / KURS_USD).toFixed(2);
+
   const pilih = confirm(
-    `${namaProduk}\n${hargaProduk}\n\n` +
-    `OK = Pay with PayPal\n` +
+    `${namaProduk}\n` +
+    `${hargaProduk} (≈ $${priceUSD} USD)\n\n` +
+    `OK = Pay with PayPal ($${priceUSD})\n` +
     `Cancel = Order via WhatsApp`
   );
 
   if(pilih){
-    // Bayar PayPal
     openPaypal(namaProduk, hargaProduk);
   } else {
-    // Order via WhatsApp (seperti sebelumnya)
     const pesanEl = document.getElementById("pesan");
     if(pesanEl){
       pesanEl.value =
@@ -499,7 +502,6 @@ document.addEventListener("click", function (e) {
     document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
   }
 });
-
 /* =========================
    5) WHATSAPP + THANK YOU
 ========================= */
@@ -714,13 +716,117 @@ function openPaypal(productName, priceString){
       height: 45
     },
 
+/* =========================
+   9) PAYPAL PAYMENT + LIVE KURS
+========================= */
+const paypalModal = document.getElementById("paypalModal");
+const paypalClose = document.getElementById("paypalClose");
+
+let currentOrder = { name: "", price: 0, priceUSD: 0 };
+let KURS_USD = 16000; // fallback default kalau API gagal
+let kursLoaded = false;
+
+// ✅ Auto fetch kurs USD → IDR saat halaman dibuka
+async function fetchKurs(){
+  const apis = [
+    "https://open.er-api.com/v6/latest/USD",
+    "https://api.exchangerate-api.com/v4/latest/USD",
+    "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+  ];
+
+  for(let i = 0; i < apis.length; i++){
+    try {
+      const res = await fetch(apis[i]);
+      const data = await res.json();
+
+      let rate = null;
+
+      // API 1 & 2 format
+      if(data.rates && data.rates.IDR){
+        rate = data.rates.IDR;
+      }
+      // API 3 format (fawazahmed0)
+      else if(data.usd && data.usd.idr){
+        rate = data.usd.idr;
+      }
+
+      if(rate && rate > 0){
+        KURS_USD = rate;
+        kursLoaded = true;
+        console.log(`✅ Kurs loaded from API ${i+1}: 1 USD = Rp ${Math.round(KURS_USD).toLocaleString("id-ID")}`);
+        return; // berhasil, stop
+      }
+    } catch(err){
+      console.warn(`⚠️ API ${i+1} failed:`, err.message);
+    }
+  }
+
+  console.warn("⚠️ All kurs APIs failed. Using fallback: Rp " + KURS_USD);
+}
+
+// Fetch kurs saat halaman load
+fetchKurs();
+
+function formatRupiah(num){
+  return "Rp " + num.toLocaleString("id-ID") + ",-";
+}
+
+function formatUSD(num){
+  return "$" + num.toFixed(2);
+}
+
+function openPaypal(productName, priceString){
+  if(!paypalModal) return;
+
+  // Parse harga: "Rp 180.000,-" => 180000
+  const numericPrice = parseInt(priceString.replace(/[^0-9]/g, "")) || 0;
+  const priceUSD = parseFloat((numericPrice / KURS_USD).toFixed(2));
+
+  // Minimal $1 untuk PayPal
+  if(priceUSD < 1){
+    alert("Minimum payment is $1.00 USD.\nPlease order via WhatsApp instead.");
+    return;
+  }
+
+  currentOrder.name = productName;
+  currentOrder.price = numericPrice;
+  currentOrder.priceUSD = priceUSD;
+
+  // Update summary
+  document.getElementById("paypalProduct").textContent = productName;
+  document.getElementById("paypalPrice").textContent = formatRupiah(numericPrice);
+  document.getElementById("paypalTotal").textContent = 
+    formatRupiah(numericPrice) + "  ≈  " + formatUSD(priceUSD);
+
+  // Tampilkan info kurs
+  const kursInfo = document.getElementById("paypalKursInfo");
+  if(kursInfo){
+    kursInfo.textContent = kursLoaded 
+      ? `Live rate: 1 USD = Rp ${Math.round(KURS_USD).toLocaleString("id-ID")}`
+      : `Estimated rate: 1 USD = Rp ${Math.round(KURS_USD).toLocaleString("id-ID")}`;
+  }
+
+  // Clear previous PayPal buttons
+  const container = document.getElementById("paypal-button-container");
+  container.innerHTML = "";
+
+  // Render PayPal buttons
+  paypal.Buttons({
+    style: {
+      layout: 'vertical',
+      color: 'gold',
+      shape: 'rect',
+      label: 'pay',
+      height: 45
+    },
+
     createOrder: function(data, actions) {
       return actions.order.create({
         purchase_units: [{
           description: currentOrder.name + " - Semesta Florist Bali",
           amount: {
-            currency_code: "IDR",
-            value: currentOrder.price.toString()
+            currency_code: "USD",
+            value: currentOrder.priceUSD.toString()
           }
         }]
       });
@@ -728,41 +834,39 @@ function openPaypal(productName, priceString){
 
     onApprove: function(data, actions) {
       return actions.order.capture().then(function(details) {
-        // Payment berhasil!
         closePaypal();
 
-        // Kirim notifikasi ke WhatsApp
         const phone = "6285726057805";
         const message =
           `✦ PAYMENT RECEIVED ✦\n\n` +
           `Product: ${currentOrder.name}\n` +
-          `Amount: Rp ${currentOrder.price.toLocaleString("id-ID")}\n` +
+          `Amount: ${formatRupiah(currentOrder.price)} (${formatUSD(currentOrder.priceUSD)})\n` +
+          `Rate: 1 USD = Rp ${Math.round(KURS_USD).toLocaleString("id-ID")}\n` +
           `PayPal ID: ${details.id}\n` +
           `Payer: ${details.payer.name.given_name} ${details.payer.name.surname}\n` +
           `Email: ${details.payer.email_address}\n\n` +
+          `Delivery date:\n` +
+          `Address:\n\n` +
           `Please confirm my order. Thank you!`;
 
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
         window.open(url, "_blank", "noopener,noreferrer");
 
-        // Tampilkan thank you modal
         requestAnimationFrame(openThankyou);
       });
     },
 
     onCancel: function(data) {
-      // User batal bayar — tidak perlu action
-      console.log("Payment cancelled");
+      console.log("Payment cancelled by user");
     },
 
     onError: function(err) {
-      alert("Payment error. Please try again or contact us via WhatsApp.");
+      alert("Payment failed. Please try again or order via WhatsApp.");
       console.error("PayPal Error:", err);
     }
 
   }).render('#paypal-button-container');
 
-  // Buka modal
   paypalModal.classList.add("is-open");
   paypalModal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
@@ -777,8 +881,6 @@ function closePaypal(){
 
 paypalClose?.addEventListener("click", closePaypal);
 paypalModal?.addEventListener("click", (e) => { if(e.target === paypalModal) closePaypal(); });
-window.addEventListener("keydown", (e) => { if(e.key === "Escape") closePaypal(); });
-
 </script>
 
 </body>
