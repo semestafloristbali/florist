@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=AYLQYB3oCkc8lrRnTcLIQrYVkeJKfkzySTB1XJkQx2m7bAkT-InuyngpJzs2OrR_imc55MTwLxT1JohU=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AYLQYB3oCkc8lrRnTcLIQrYVkeJKfkzySTB1XJkQx2m7bAkT-InuyngpJzs2OrR_imc55MTwLxT1JohU&currency=USD"></script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -310,108 +310,6 @@
   </div>
 </div>
 
-<div id="mbPremium" class="mbp-overlay" aria-hidden="true">
-  <div class="mbp-modal" role="dialog" aria-modal="true" aria-labelledby="mbpTitle">
-    <button type="button" class="mbp-close" id="mbpClose" aria-label="Close">×</button>
-
-    <div class="mbp-wrap">
-      <div class="mbp-gallery">
-        <div class="mbp-main">
-          <img id="mbpMainImg" src="buketuang5kipas-hero.jpeg" alt="Money Bouquet">
-        </div>
-
-        <div class="mbp-thumbs" role="list">
-          <button class="mbp-thumb is-active" type="button" data-img="buketuang40k-hero.jpeg" aria-label="Money Bouquet 40k">
-            <img src="buketuang40k-hero.jpeg" alt="Buket Uang 40k">
-          </button>
-          <button class="mbp-thumb" type="button" data-img="buketuang10kcottoncandy-hero.jpeg" aria-label="Money Bouquet 10k">
-            <img src="buketuang10kcottoncandy-hero.jpeg" alt="Buket Uang 10k">
-          </button>
-          <button class="mbp-thumb" type="button" data-img="buketuang20k-hero.jpeg" aria-label="Money Bouquet 20k">
-            <img src="buketuang20k-hero.jpeg" alt="Buket Uang 20k">
-          </button>
-        </div>
-
-        <div class="mbp-gallery-note">Tap image to zoom is handled by your lightbox.</div>
-      </div>
-
-      <div class="mbp-detail">
-        <div class="mbp-badge">SIGNATURE • PREMIUM</div>
-        <h3 class="mbp-title" id="mbpTitle">Money Bouquet</h3>
-        <p class="mbp-sub">Cash arrangement with luxury wrap + personalized card. <span class="mbp-muted">Cash value optional.</span></p>
-
-        <div class="mbp-priceRow">
-          <div>
-            <div class="mbp-small">Starting from</div>
-            <div class="mbp-price" id="mbpStarting">Rp 100000</div>
-          </div>
-          <div class="mbp-chip">Handcrafted</div>
-        </div>
-
-        <div class="mbp-line"></div>
-
-        <div class="mbp-form">
-          <div class="mbp-field">
-            <label class="mbp-label" for="mbpSize">Size</label>
-            <select id="mbpSize" class="mbp-input">
-              <option value="S" data-base="350000">S — 10–20 bills</option>
-              <option value="M" data-base="500000" selected>M — 20–50 bills</option>
-              <option value="L" data-base="750000">L — 100+ bills</option>
-            </select>
-            <div class="mbp-help">Base price = arrangement + premium materials.</div>
-          </div>
-
-          <div class="mbp-field">
-            <label class="mbp-label" for="mbpCash">Cash value (optional)</label>
-            <input id="mbpCash" class="mbp-input" inputmode="numeric" placeholder="contoh: 1000000">
-            <div class="mbp-help">Fill up, if you want Us to prepare your money bouquet!</div>
-          </div>
-
-          <div class="mbp-field">
-            <label class="mbp-label" for="mbpWrap">Wrapping color</label>
-            <select id="mbpWrap" class="mbp-input">
-              <option value="Yellow" selected>Yellow</option>
-              <option value="Black">Black</option>
-              <option value="Pink">Pink</option>
-              <option value="Red">Red</option>
-              <option value="Orange">Orange</option>
-            </select>
-          </div>
-
-          <div class="mbp-field">
-            <label class="mbp-label" for="mbpAddon"><span>Add-on</span></label>
-            <label class="mbp-check">
-              <input type="checkbox" id="mbpAddon">
-              <span>Mini flowers (+Rp 7000)</span>
-            </label>
-          </div>
-
-          <div class="mbp-field mbp-wide">
-            <label class="mbp-label" for="mbpCard">Card message</label>
-            <textarea id="mbpCard" class="mbp-input mbp-textarea" rows="3" placeholder="Write a small message..."></textarea>
-          </div>
-
-          <div class="mbp-summary">
-            <div class="mbp-srow"><span>Base arrangement</span><span id="mbpBaseText">Rp 500.000</span></div>
-            <div class="mbp-srow"><span>Cash value</span><span id="mbpCashText">Rp 0</span></div>
-            <div class="mbp-srow"><span>Add-on</span><span id="mbpAddonText">Rp 0</span></div>
-			            <div class="mbp-stotal"><span>Total estimate</span><span id="mbpTotalText">Rp 500.000</span></div>
-          </div>
-
-          <div class="mbp-actions">
-            <button type="button" class="mbp-btn mbp-btnPrimary" id="mbpOrder">Order via WhatsApp</button>
-            <button type="button" class="mbp-btn" id="mbpCopy">Copy details</button>
-          </div>
-
-          <div class="mbp-foot">
-            <span class="mbp-muted">Delivery date & address will be confirmed via WhatsApp.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- PayPal Payment Modal -->
 <div id="paypalModal" class="paypal-overlay" aria-hidden="true">
   <div class="paypal-modal" role="dialog" aria-modal="true">
@@ -450,138 +348,29 @@
 
 <script>
 /* =========================
-   1) DATA PRODUK + RENDER
+   0) INTERSECTION OBSERVER (HARUS PERTAMA)
 ========================= */
-var products = [
-  { name:"Flower Basket", price:"Rp 180.000,-", image:"bucket-hero.jpeg", desc:"Flower Basket with 11 main flowers, 2 artificial lily's, and additional flowers. You can request the flowers as well.", tag:["classic"] },
-  { name:"Teddy Bear Bouquet", price:"Rp 85.000,-", image:"teddybouquet-hero.jpeg", desc:"Teddy Bear Bouquet with 5 main flowers, additional flowers, and a teddy bear.", tag:["classic"] },
-  { name:"Small Bouquet", price:"Rp 65.000,-", image:"smallbouquet-hero.jpeg", desc:"Small sized bouquet with 9 main flowers and additional flowers.", tag:["classic"] },
-  { name:"Basket of Gerbera's", price:"Rp 150.000,-", image:"bucketofgerbera-hero.jpeg", desc:"17 Gerbera's with additional flowers and leaves.", tag:["classic"] },
-  { name:"Medium Bouquet", price:"Rp 200.000,-", image:"mediumbouquet-hero.jpeg", desc:"Special request by Customers.", tag:["classic"] },
-  { name:"Medium Flower Basket", price:"Rp 190.000,-", image:"flowerbucket-hero.jpeg", desc:"Medium sized contains 27 main flowers, and additional flowers and leaves.", tag:["classic"] },
-  { name:"Teddy Bear with Chocolate", price:"Rp 85.000,-", image:"teddysilverqueen-hero.jpeg", desc:"Teddy Bear & Silverqueen Bouquet with Rose.", tag:["signature"] },
-  { name:"Bunny Bouquet with Pocky", price:"Rp 80.000,-", image:"bouquetkelinci-hero.jpeg", desc:"Small Bunny with 2 Pocky.", tag:["signature"] },
-  { name:"Flower Board", price:"Start from Rp 250.000,-", image:"papanbunga-hero.jpeg", desc:"Order by request, depends on size and flowers placing.", tag:["classic"] }
-];
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      entry.target.classList.add("is-show");
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
 
+var staticEls = document.querySelectorAll("section, .mb-card, .tentang img");
+staticEls.forEach(function(el){
+  el.classList.add("reveal");
+  io.observe(el);
+});
+document.querySelector("#home")?.classList.add("is-show");
+
+/* =========================
+   1) CONSTANTS & HELPERS
+========================= */
 var PHONE = "6285726057805";
-var gridAll = document.getElementById("produkGrid");
-var gridVal = document.getElementById("valentineGrid");
 
-function renderCard(p){
-  return '<div class="produk-item" data-produk="' + p.name + '" data-harga="' + p.price + '">' +
-    '<div class="img-wrap">' +
-      '<img class="produk-img" src="' + p.image + '" alt="' + p.name + '" onerror="this.style.display=\'none\'; this.parentElement.classList.add(\'img-fallback\');">' +
-      '<div class="img-fallback-ui" aria-hidden="true">' +
-        '<div class="fallback-rose">🌹</div>' +
-        '<div class="fallback-text">Image Preview<br><span>Coming soon</span></div>' +
-      '</div>' +
-    '</div>' +
-    '<h3>' + p.name + '</h3>' +
-    '<p>' + p.desc + '</p>' +
-    '<span class="harga">' + p.price + '</span>' +
-  '</div>';
-}
-
-function mountGrid(el, list){
-  if(!el) return;
-  el.classList.add("is-fading");
-  setTimeout(function(){
-    el.innerHTML = list.map(renderCard).join("");
-    el.classList.remove("is-fading");
-    el.querySelectorAll(".produk-item").forEach(function(item){
-      item.classList.add("reveal");
-      io.observe(item);
-    });
-  }, 160);
-}
-
-/* =========================
-   2) FILTER BUTTONS
-========================= */
-var btnAll = document.getElementById("btnAll");
-var btnVal = document.getElementById("btnVal");
-
-btnAll?.addEventListener("click", function(){
-  btnAll.classList.add("is-active");
-  btnVal?.classList.remove("is-active");
-  mountGrid(gridAll, products);
-});
-
-btnVal?.addEventListener("click", function(){
-  btnVal.classList.add("is-active");
-  btnAll?.classList.remove("is-active");
-  mountGrid(gridAll, products.filter(function(p){ return p.tag?.includes("signature"); }));
-});
-
-/* =========================
-   3) LIGHTBOX
-========================= */
-var imgLightbox = document.getElementById("imgLightbox");
-var imgPreview = document.getElementById("imgPreview");
-var imgClose = document.getElementById("imgClose");
-var imgPrev = document.getElementById("imgPrev");
-var imgNext = document.getElementById("imgNext");
-
-var LB_IMAGES = [];
-var LB_INDEX = 0;
-
-function lbRender(){
-  var item = LB_IMAGES[LB_INDEX];
-  if(!item || !imgPreview) return;
-  imgPreview.src = item.src;
-  imgPreview.alt = item.alt || "Preview";
-  var many = LB_IMAGES.length > 1;
-  imgPrev?.classList.toggle("is-hidden", !many);
-  imgNext?.classList.toggle("is-hidden", !many);
-}
-
-function openGallery(images, startIndex){
-  if(!imgLightbox) return;
-  LB_IMAGES = Array.isArray(images) && images.length ? images : [];
-  LB_INDEX = Math.max(0, Math.min(startIndex || 0, LB_IMAGES.length - 1));
-  if(!LB_IMAGES.length) return;
-  lbRender();
-  imgLightbox.classList.add("is-open");
-  imgLightbox.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-}
-
-function closeImage(){
-  if(!imgLightbox) return;
-  imgLightbox.classList.remove("is-open");
-  imgLightbox.setAttribute("aria-hidden", "true");
-  if(imgPreview) imgPreview.src = "";
-  document.body.style.overflow = "";
-  LB_IMAGES = [];
-  LB_INDEX = 0;
-}
-
-function openImage(src, alt){ openGallery([{ src: src, alt: alt }], 0); }
-function lbNext(){ if(LB_IMAGES.length <= 1) return; LB_INDEX = (LB_INDEX + 1) % LB_IMAGES.length; lbRender(); }
-function lbPrev(){ if(LB_IMAGES.length <= 1) return; LB_INDEX = (LB_INDEX - 1 + LB_IMAGES.length) % LB_IMAGES.length; lbRender(); }
-
-imgClose?.addEventListener("click", closeImage);
-imgLightbox?.addEventListener("click", function(e){ if(e.target === imgLightbox) closeImage(); });
-imgNext?.addEventListener("click", function(e){ e.stopPropagation(); lbNext(); });
-imgPrev?.addEventListener("click", function(e){ e.stopPropagation(); lbPrev(); });
-
-window.addEventListener("keydown", function(e){
-  if(!imgLightbox || !imgLightbox.classList.contains("is-open")) return;
-  if(e.key === "Escape") closeImage();
-  if(e.key === "ArrowRight") lbNext();
-  if(e.key === "ArrowLeft") lbPrev();
-});
-
-document.addEventListener("click", function(e){
-  var img = e.target.closest(".produk-img");
-  if(!img) return;
-  openImage(img.getAttribute("src"), img.getAttribute("alt"));
-});
-
-/* =========================
-   4) HELPER FUNCTIONS
-========================= */
 function getOrderTime(){
   return new Date().toLocaleString("id-ID", { dateStyle: "full", timeStyle: "short" });
 }
@@ -601,6 +390,129 @@ function sendToWhatsApp(message){
 }
 
 /* =========================
+   2) DATA PRODUK + RENDER
+========================= */
+var products = [
+  { name:"Flower Basket", price:"Rp 180.000,-", image:"bucket-hero.jpeg", desc:"Flower Basket with 11 main flowers, 2 artificial lily's, and additional flowers.", tag:["classic"] },
+  { name:"Teddy Bear Bouquet", price:"Rp 85.000,-", image:"teddybouquet-hero.jpeg", desc:"Teddy Bear Bouquet with 5 main flowers, additional flowers, and a teddy bear.", tag:["classic"] },
+  { name:"Small Bouquet", price:"Rp 65.000,-", image:"smallbouquet-hero.jpeg", desc:"Small sized bouquet with 9 main flowers and additional flowers.", tag:["classic"] },
+  { name:"Basket of Gerbera's", price:"Rp 150.000,-", image:"bucketofgerbera-hero.jpeg", desc:"17 Gerbera's with additional flowers and leaves.", tag:["classic"] },
+  { name:"Medium Bouquet", price:"Rp 200.000,-", image:"mediumbouquet-hero.jpeg", desc:"Special request by Customers.", tag:["classic"] },
+  { name:"Medium Flower Basket", price:"Rp 190.000,-", image:"flowerbucket-hero.jpeg", desc:"Medium sized contains 27 main flowers, and additional flowers and leaves.", tag:["classic"] },
+  { name:"Teddy Bear with Chocolate", price:"Rp 85.000,-", image:"teddysilverqueen-hero.jpeg", desc:"Teddy Bear & Silverqueen Bouquet with Rose.", tag:["signature"] },
+  { name:"Bunny Bouquet with Pocky", price:"Rp 80.000,-", image:"bouquetkelinci-hero.jpeg", desc:"Small Bunny with 2 Pocky.", tag:["signature"] },
+  { name:"Flower Board", price:"Start from Rp 250.000,-", image:"papanbunga-hero.jpeg", desc:"Order by request, depends on size and flowers placing.", tag:["classic"] }
+];
+
+var gridAll = document.getElementById("produkGrid");
+var gridVal = document.getElementById("valentineGrid");
+
+function renderCard(p){
+  return '<div class="produk-item" data-produk="' + p.name + '" data-harga="' + p.price + '">' +
+    '<div class="img-wrap">' +
+    '<img class="produk-img" src="' + p.image + '" alt="' + p.name + '" onerror="this.style.display=\'none\'; this.parentElement.classList.add(\'img-fallback\');">' +
+    '<div class="img-fallback-ui" aria-hidden="true"><div class="fallback-rose">🌹</div><div class="fallback-text">Image Preview<br><span>Coming soon</span></div></div>' +
+    '</div>' +
+    '<h3>' + p.name + '</h3><p>' + p.desc + '</p><span class="harga">' + p.price + '</span></div>';
+}
+
+function mountGrid(el, list){
+  if(!el) return;
+  el.classList.add("is-fading");
+  setTimeout(function(){
+    el.innerHTML = list.map(renderCard).join("");
+    el.classList.remove("is-fading");
+    el.querySelectorAll(".produk-item").forEach(function(item){
+      item.classList.add("reveal");
+      io.observe(item);
+    });
+  }, 160);
+}
+
+mountGrid(gridAll, products);
+if(gridVal) mountGrid(gridVal, products.filter(function(p){ return p.tag?.includes("signature"); }));
+
+/* =========================
+   3) FILTER BUTTONS
+========================= */
+var btnAll = document.getElementById("btnAll");
+var btnVal = document.getElementById("btnVal");
+
+btnAll?.addEventListener("click", function(){
+  btnAll.classList.add("is-active");
+  btnVal?.classList.remove("is-active");
+  mountGrid(gridAll, products);
+});
+
+btnVal?.addEventListener("click", function(){
+  btnVal.classList.add("is-active");
+  btnAll?.classList.remove("is-active");
+  mountGrid(gridAll, products.filter(function(p){ return p.tag?.includes("signature"); }));
+});
+
+/* =========================
+   4) LIGHTBOX
+========================= */
+var imgLightbox = document.getElementById("imgLightbox");
+var imgPreview = document.getElementById("imgPreview");
+var imgClose = document.getElementById("imgClose");
+var imgPrev = document.getElementById("imgPrev");
+var imgNext = document.getElementById("imgNext");
+var LB_IMAGES = [];
+var LB_INDEX = 0;
+
+function lbRender(){
+  var item = LB_IMAGES[LB_INDEX];
+  if(!item || !imgPreview) return;
+  imgPreview.src = item.src;
+  imgPreview.alt = item.alt || "Preview";
+  imgPrev?.classList.toggle("is-hidden", LB_IMAGES.length <= 1);
+  imgNext?.classList.toggle("is-hidden", LB_IMAGES.length <= 1);
+}
+
+function openGallery(images, startIndex){
+  if(!imgLightbox) return;
+  LB_IMAGES = Array.isArray(images) && images.length ? images : [];
+  LB_INDEX = Math.max(0, Math.min(startIndex || 0, LB_IMAGES.length - 1));
+  if(!LB_IMAGES.length) return;
+  lbRender();
+  imgLightbox.classList.add("is-open");
+  imgLightbox.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeImage(){
+  if(!imgLightbox) return;
+  imgLightbox.classList.remove("is-open");
+  imgLightbox.setAttribute("aria-hidden", "true");
+  if(imgPreview) imgPreview.src = "";
+  document.body.style.overflow = "";
+  LB_IMAGES = []; LB_INDEX = 0;
+}
+
+function openImage(src, alt){ openGallery([{src:src, alt:alt}], 0); }
+function lbNext(){ if(LB_IMAGES.length<=1) return; LB_INDEX=(LB_INDEX+1)%LB_IMAGES.length; lbRender(); }
+function lbPrev(){ if(LB_IMAGES.length<=1) return; LB_INDEX=(LB_INDEX-1+LB_IMAGES.length)%LB_IMAGES.length; lbRender(); }
+
+imgClose?.addEventListener("click", closeImage);
+imgLightbox?.addEventListener("click", function(e){ if(e.target===imgLightbox) closeImage(); });
+imgNext?.addEventListener("click", function(e){ e.stopPropagation(); lbNext(); });
+imgPrev?.addEventListener("click", function(e){ e.stopPropagation(); lbPrev(); });
+
+window.addEventListener("keydown", function(e){
+  if(!imgLightbox || !imgLightbox.classList.contains("is-open")) return;
+  if(e.key==="Escape") closeImage();
+  if(e.key==="ArrowRight") lbNext();
+  if(e.key==="ArrowLeft") lbPrev();
+});
+
+document.addEventListener("click", function(e){
+  var img = e.target.closest(".produk-img");
+  if(!img) return;
+  openImage(img.getAttribute("src"), img.getAttribute("alt"));
+});
+
+/* =========================
    5) CLICK CARD => ORDER
 ========================= */
 document.addEventListener("click", function(e){
@@ -612,38 +524,23 @@ document.addEventListener("click", function(e){
   var hargaProduk = card.dataset.harga;
 
   var paypalReady = typeof paypal !== "undefined" && document.getElementById("paypalModal");
-
   if(paypalReady){
     var numericPrice = parseInt(hargaProduk.replace(/[^0-9]/g, "")) || 0;
     var priceUSD = (numericPrice / KURS_USD).toFixed(2);
-    var pilih = confirm(
-      namaProduk + "\n" +
-      hargaProduk + " (≈ $" + priceUSD + " USD)\n\n" +
-      "OK = Pay with PayPal ($" + priceUSD + ")\n" +
-      "Cancel = Order via WhatsApp"
-    );
-    if(pilih){
-      openPaypal(namaProduk, hargaProduk);
-      return;
-    }
+    var pilih = confirm(namaProduk + "\n" + hargaProduk + " (≈ $" + priceUSD + ")\n\nOK = PayPal\nCancel = WhatsApp");
+    if(pilih){ openPaypal(namaProduk, hargaProduk); return; }
   }
 
   var pesanEl = document.getElementById("pesan");
   if(pesanEl){
-    pesanEl.value =
-      "Product: " + namaProduk + "\n" +
-      "Price: " + hargaProduk + "\n\n" +
-      "Delivery date:\n" +
-      "Address:\n" +
-      "Notes:";
+    pesanEl.value = "Product: " + namaProduk + "\nPrice: " + hargaProduk + "\n\nDelivery date:\nAddress:\nNotes:";
   }
   document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
 });
 
 /* =========================
-   6) WHATSAPP FORM + THANK YOU
+   6) THANK YOU MODAL
 ========================= */
-var form = document.getElementById("whatsappForm");
 var thankyouModal = document.getElementById("thankyouModal");
 var tyCloseBtn = document.getElementById("tyClose");
 var tyOkBtn = document.getElementById("tyOk");
@@ -664,8 +561,13 @@ function closeThankyou(){
 
 tyCloseBtn?.addEventListener("click", closeThankyou);
 tyOkBtn?.addEventListener("click", closeThankyou);
-thankyouModal?.addEventListener("click", function(ev){ if(ev.target === thankyouModal) closeThankyou(); });
-window.addEventListener("keydown", function(ev){ if(ev.key === "Escape") closeThankyou(); });
+thankyouModal?.addEventListener("click", function(ev){ if(ev.target===thankyouModal) closeThankyou(); });
+window.addEventListener("keydown", function(ev){ if(ev.key==="Escape") closeThankyou(); });
+
+/* =========================
+   7) WHATSAPP FORM
+========================= */
+var form = document.getElementById("whatsappForm");
 
 form?.addEventListener("submit", function(ev){
   ev.preventDefault();
@@ -686,8 +588,7 @@ form?.addEventListener("submit", function(ev){
     pesan + "\n\n" +
     "───── Payment Status ─────\n" +
     "💳 Method: WhatsApp Order\n" +
-    "⏳ Status: UNPAID\n" +
-    "   (Waiting for payment)\n\n" +
+    "⏳ Status: UNPAID\n\n" +
     "═══════════════════════\n" +
     "Please confirm & send\n" +
     "payment instructions.\n" +
@@ -697,9 +598,8 @@ form?.addEventListener("submit", function(ev){
   requestAnimationFrame(openThankyou);
   form.reset();
 });
-
 /* =========================
-   7) HEADER + NAV + TOP
+   8) HEADER + NAV + TOP
 ========================= */
 var header = document.getElementById("siteHeader");
 var nav = document.getElementById("siteNav");
@@ -719,7 +619,7 @@ document.addEventListener("click", function(e){
   navToggle?.setAttribute("aria-expanded", "false");
 });
 
-toTop?.addEventListener("click", function(){ window.scrollTo({ top: 0, behavior: "smooth" }); });
+toTop?.addEventListener("click", function(){ window.scrollTo({ top:0, behavior:"smooth" }); });
 
 var lastY = window.scrollY;
 window.addEventListener("scroll", function(){
@@ -732,7 +632,7 @@ window.addEventListener("scroll", function(){
 });
 
 /* =========================
-   8) MONEY BOUQUET SLIDESHOW + ORDER
+   9) MONEY BOUQUET
 ========================= */
 (function(){
   var carousel = document.getElementById("mbCarousel");
@@ -751,22 +651,22 @@ window.addEventListener("scroll", function(){
 
   function setActive(i){
     idx = (i + slides.length) % slides.length;
-    slides.forEach(function(s, k){ s.classList.toggle("is-active", k === idx); });
-    dotsWrap.querySelectorAll(".mb-dot").forEach(function(d, k){ d.classList.toggle("is-active", k === idx); });
+    slides.forEach(function(s,k){ s.classList.toggle("is-active",k === idx); });
+    dotsWrap.querySelectorAll(".mb-dot").forEach(function(d,k){ d.classList.toggle("is-active", k === idx); });
   }
 
-  dotsWrap.innerHTML = slides.map(function(_, i){
+  dotsWrap.innerHTML = slides.map(function(_,i){
     return '<button class="mb-dot ' + (i===0?'is-active':'') + '" type="button"></button>';
   }).join("");
 
-  dotsWrap.querySelectorAll(".mb-dot").forEach(function(dot, i){
+  dotsWrap.querySelectorAll(".mb-dot").forEach(function(dot,i){
     dot.addEventListener("click", function(){ setActive(i); restart(); });
   });
 
   prevBtn?.addEventListener("click", function(){ setActive(idx-1); restart(); });
   nextBtn?.addEventListener("click", function(){ setActive(idx+1); restart(); });
 
-  slides.forEach(function(btn, i){
+  slides.forEach(function(btn,i){
     btn.addEventListener("click", function(){
       var imgs = slides.map(function(s){ return s.querySelector("img"); }).filter(Boolean).map(function(im){
         return { src: im.getAttribute("src"), alt: im.getAttribute("alt") };
@@ -784,7 +684,7 @@ window.addEventListener("scroll", function(){
   setActive(0);
   start();
 
-  /* ─── ORDER FORM LOGIC ─── */
+  /* ─── FORM ELEMENTS ─── */
   var sizeEl = document.getElementById("mbSize");
   var denomEl = document.getElementById("mbDenom");
   var billsEl = document.getElementById("mbBills");
@@ -813,6 +713,7 @@ window.addEventListener("scroll", function(){
   var servicePerBillEl = document.getElementById("mbServicePerBill");
   var serviceBillsEl = document.getElementById("mbServiceBills");
 
+  /* ─── PRICES ─── */
   var sizePrices = { S: 50000, M: 70000, L: 100000 };
   var addonPrices = { none: 0, fresh: 5000, artificial: 7000 };
 
@@ -852,16 +753,14 @@ window.addEventListener("scroll", function(){
     var total = arrangeFee + serviceFee + cashValue + addonFee;
 
     if(cashTotalEl){
-      cashTotalEl.textContent = denomEl?.value === "mix"
-        ? "≈ " + rp(cashValue) + " (estimated)"
-        : rp(cashValue);
+      cashTotalEl.textContent = denomEl?.value === "mix" ? "≈ " + rp(cashValue) + " (est.)" : rp(cashValue);
     }
     if(serviceInfoEl) serviceInfoEl.textContent = rp(servicePerBill) + "/bill";
     if(serviceNoteEl){
       var dv = denomEl?.value || "20000";
-      if(dv === "mix") serviceNoteEl.textContent = "Mix denomination: default Rp 5.000/bill.";
-      else if(parseInt(dv) >= 50000) serviceNoteEl.textContent = "Denom ≥ Rp 50.000 → service Rp 10.000/bill.";
-      else serviceNoteEl.textContent = "Denom ≤ Rp 20.000 → service Rp 5.000/bill.";
+      if(dv === "mix") serviceNoteEl.textContent = "Mix: default Rp 5.000/bill.";
+      else if(parseInt(dv) >= 50000) serviceNoteEl.textContent = "Denom ≥ Rp 50.000 → Rp 10.000/bill.";
+      else serviceNoteEl.textContent = "Denom ≤ Rp 20.000 → Rp 5.000/bill.";
     }
     if(servicePerBillEl) servicePerBillEl.textContent = rp(servicePerBill);
     if(serviceBillsEl) serviceBillsEl.textContent = bills;
@@ -874,9 +773,7 @@ window.addEventListener("scroll", function(){
   }
 
   function updateAddonField(){
-    if(addonQtyField){
-      addonQtyField.style.display = (addonEl?.value || "none") === "none" ? "none" : "block";
-    }
+    if(addonQtyField) addonQtyField.style.display = (addonEl?.value || "none") === "none" ? "none" : "block";
     updateSummary();
   }
 
@@ -905,7 +802,7 @@ window.addEventListener("scroll", function(){
   deliveryEl?.addEventListener("change", function(){
     updateDeliveryNote();
     if(deliveryEl.value === "1-2 days" && sizeEl.value !== "S"){
-      alert("1-2 days delivery is only available for Size S.\nPlease select Size S or choose a longer delivery time.");
+      alert("1-2 days delivery only for Size S.\nPlease select Size S or longer delivery.");
       deliveryEl.value = "2-3 days";
       updateDeliveryNote();
     }
@@ -922,8 +819,8 @@ window.addEventListener("scroll", function(){
     var bills = parseInt(billsEl?.value) || 0;
 
     if(!name){ alert("Please enter your name."); nameEl?.focus(); return; }
-    if(!address){ alert("Please enter your delivery address."); addressEl?.focus(); return; }
-    if(bills < 1){ alert("Please enter the number of bills."); billsEl?.focus(); return; }
+    if(!address){ alert("Please enter delivery address."); addressEl?.focus(); return; }
+    if(bills < 1){ alert("Please enter number of bills."); billsEl?.focus(); return; }
 
     var size = sizeEl?.value || "M";
     var denom = denomEl?.value || "20000";
@@ -964,16 +861,16 @@ window.addEventListener("scroll", function(){
       "───── Bouquet Details ─────\n" +
       "📦 Size: " + size + "\n" +
       "💵 Denomination: " + denomLabel + "\n" +
-      "🔢 Number of bills: " + bills + " pcs\n" +
+      "🔢 Bills: " + bills + " pcs\n" +
       "💰 Cash value: " + rp(cashValue) + "\n" +
       "🎨 Wrapping: " + wrap + "\n" +
       "🌸 Add-on: " + addonLabel + "\n" +
       "💌 Card: " + card + "\n\n" +
       "───── Price Breakdown ─────\n" +
-      "Arrangement fee: " + rp(arrangeFee) + "\n" +
-      "Service fee: " + rp(servicePerBill) + " × " + bills + " bills = " + rp(serviceFee) + "\n" +
+      "Arrangement: " + rp(arrangeFee) + "\n" +
+      "Service: " + rp(servicePerBill) + " × " + bills + " = " + rp(serviceFee) + "\n" +
       "Cash value: " + rp(cashValue) + "\n" +
-      "Add-on flowers: " + rp(addonFee) + "\n" +
+      "Add-on: " + rp(addonFee) + "\n" +
       "━━━━━━━━━━━━━━━━━━━━━\n" +
       "TOTAL: " + rp(total) + "\n\n" +
       "───── Delivery ─────\n" +
@@ -983,37 +880,14 @@ window.addEventListener("scroll", function(){
       "💳 Method: WhatsApp Order\n" +
       "⏳ Status: UNPAID\n\n" +
       "═══════════════════════\n" +
-      "Please confirm availability\n" +
-      "& send payment instructions.\n" +
+      "Please confirm & send\n" +
+      "payment instructions.\n" +
       "═══════════════════════";
 
     sendToWhatsApp(message);
     requestAnimationFrame(openThankyou);
   });
 })();
-
-/* =========================
-   9) REVEAL ON SCROLL
-========================= */
-var io = new IntersectionObserver(function(entries){
-  entries.forEach(function(entry){
-    if(entry.isIntersecting){
-      entry.target.classList.add("is-show");
-      io.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-
-var staticEls = document.querySelectorAll("section, .mb-card, .tentang img");
-staticEls.forEach(function(el){
-  el.classList.add("reveal");
-  io.observe(el);
-});
-
-document.querySelector("#home")?.classList.add("is-show");
-mountGrid(gridAll, products);
-if(gridVal) mountGrid(gridVal, products.filter(function(p){ return p.tag?.includes("signature"); }));
-
 /* =========================
    10) PAYPAL + LIVE KURS
 ========================= */
@@ -1061,10 +935,12 @@ function openPaypal(productName, priceString){
   document.getElementById("paypalTotal").textContent = formatRupiah(numericPrice) + " ≈ " + formatUSD(priceUSD);
 
   var ki = document.getElementById("paypalKursInfo");
-  if(ki) ki.textContent = (kursLoaded ? "Live" : "Est.") + " rate: 1 USD = Rp " + Math.round(KURS_USD).toLocaleString("id-ID");
+  if(ki) ki.textContent = (kursLoaded?"Live":"Est.") + " rate: 1 USD = Rp " +Math.round(KURS_USD).toLocaleString("id-ID");
 
   var container = document.getElementById("paypal-button-container");
-  container.innerHTML = "";  paypal.Buttons({
+  container.innerHTML = "";
+
+  paypal.Buttons({
     style: { layout: "vertical", color: "gold", shape: "rect", label: "pay", height: 45 },
 
     createOrder: function(data, actions){
@@ -1079,7 +955,6 @@ function openPaypal(productName, priceString){
     onApprove: function(data, actions){
       return actions.order.capture().then(function(details){
         closePaypal();
-
         var orderID = generateOrderID();
         var orderTime = getOrderTime();
         var payerName = details.payer.name.given_name + " " + details.payer.name.surname;
@@ -1137,6 +1012,7 @@ function closePaypal(){
 
 paypalClose?.addEventListener("click", closePaypal);
 paypalModal?.addEventListener("click", function(e){ if(e.target === paypalModal) closePaypal(); });
+
+</script>
 </body>
-</section>
 </html>
